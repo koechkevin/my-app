@@ -1,8 +1,10 @@
 import global from './global'
-import myPage from './myPage';
+import resume from './resume';
+import user from './user';
+import usersReducer from './users';
 
 const reducers = {
-  myPage, global,
+  resume, global, user, users: usersReducer,
 };
 
 export default reducers;

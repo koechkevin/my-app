@@ -1,0 +1,23 @@
+.footer {
+  position: absolute;
+  bottom: 0;
+  height: 160px;
+  width: 100%;
+  background-color: #001429;
+}
+
+.body {
+  height: calc(100vh - 224px);
+  overflow: scroll;
+  display: flex;
+  justify-content: center;
+}
+
+.home {
+  height: 100%;
+  &:global(.ant-row) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}

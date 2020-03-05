@@ -1,6 +1,4 @@
-.overview {
 
-}
 :global(.ant-typography) {
   color: #1d1d1d;
 }
@@ -10,4 +8,29 @@
   align-items: center;
   padding: 8px 16px;
   width: 100%;
+}
+
+.list {
+  border: 1px solid lightgray;
+  overflow: scroll;
+  min-width: 575px;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  :global(.ant-list-item-meta-title) {
+    color: #1d1d1d;
+    a, a:hover {
+      color: inherit;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    max-width: 575px;
+    min-width: 360px;
+  }
+
+  @media screen and (max-width: 575px) {
+    width: 100%;
+  }
 }

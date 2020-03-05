@@ -21,6 +21,7 @@
     color: white;
     width: 320px;
     text-align: center;
+    margin-top: 8px;
   }
   padding: 16px;
 }
@@ -66,5 +67,8 @@ background-color: #106cc8;
     font-weight: bold;
     background: #106cc8;
     cursor: pointer;
+  }
+  :global(.ant-avatar-string) {
+    text-transform: uppercase;
   }
 }
