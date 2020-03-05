@@ -13,10 +13,10 @@ export const api = {
         const extraConfig = {...config, ...baseConfig};
         return axios.get(`${baseUrl}${url}`, extraConfig);
     },
-    post: (url:string, data:any, config: any) => {
+    post: (url:string, data:any, config?: any) => {
         const extraConfig = {...config, ...baseConfig};
         return axios.post(`${baseUrl}${url}`, data,  extraConfig);
-    }, put: (url:string, data:any, config: any) => {
+    }, put: (url:string, data:any, config?: any) => {
         const extraConfig = {...config, ...baseConfig};
         return axios.put(`${baseUrl}${url}`, data,  extraConfig);
     },

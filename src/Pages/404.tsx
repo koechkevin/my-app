@@ -21,7 +21,7 @@ const Exception404: FC<Props> = (props) => {
     hideSideBar();
   }, [hideSideBar]);
 
-  useEffect(() => resetStatusCode , [])
+  useEffect(() => resetStatusCode , [resetStatusCode]);
   return (
     <Row className={styles.exception} style={{ height: '100%' }}>
       <Col>

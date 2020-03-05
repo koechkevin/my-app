@@ -1,12 +1,10 @@
-import { faChevronRight } from '@fortawesome/pro-regular-svg-icons';
-import { Row, Typography } from 'antd';
+import { Row } from 'antd';
 import React, { FC, ReactNode, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useMedia } from 'react-use';
 import { Dispatch } from 'redux';
 
 import { Redirect, RouteComponentProps } from 'react-router-dom';
-import {Icon, Loading, usePageTitle} from '../../components';
+import { Loading, usePageTitle } from '../../components';
 import constants from '../../redux/constants';
 import { Resume } from '../../redux/reducers/resume';
 import Achievements from './Achievements';
@@ -20,18 +18,19 @@ interface ResumeProps extends RouteComponentProps<{username: string}>{
   handlePageTitle: (pageTitle: string | ReactNode) => void;
   showSocialIcons: (isVisible: boolean) => void;
   resume: Resume;
+  name: string;
   loading: boolean;
   statusCode: number;
   loadUserName: (username: string) => void;
 }
 
 const ResumeComponent: FC<ResumeProps> = (props) => {
-  const { handlePageTitle,
+  const { handlePageTitle, name,
     statusCode, resume, loading, showSocialIcons, loadUserName, match: { params: { username }} } = props;
 
-  const { overview, skills, work, title, achievements, education, referees, name } = resume;
+  const { overview, skills, work, title, achievements, education, referees } = resume;
 
-  const pageTitle = usePageTitle({ name, title });
+  const pageTitle = usePageTitle({ name, title, page: 'Resume' });
 
   useEffect(() => {
     if (username) {
@@ -41,7 +40,7 @@ const ResumeComponent: FC<ResumeProps> = (props) => {
 
   useEffect(() => {
     handlePageTitle(pageTitle);
-    return () => handlePageTitle('')
+    return () => handlePageTitle('');
   }, [handlePageTitle, pageTitle]);
 
   useEffect(() => {
@@ -69,10 +68,11 @@ const ResumeComponent: FC<ResumeProps> = (props) => {
   );
 };
 
-const mapStateToProps = ({ resume, global }: any) => ({
+const mapStateToProps = ({ resume, global, user }: any) => ({
   resume,
   loading: resume.fetchingResume,
   statusCode: global.statusCode,
+  name: `${user.firstName} ${user.lastName}`,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
