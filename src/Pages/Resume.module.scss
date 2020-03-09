@@ -6,8 +6,24 @@
   height: 48px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 8px 16px;
   width: 100%;
+  cursor: pointer;
+}
+
+.overview {
+  width: 100%;
+  display: flex;
+  padding: 16px;
+  justify-content: space-between;
+}
+.textArea {
+  &:global(.ant-input) {
+    width: 100%;
+    border-radius: 8px;
+    padding: 4px 16px;
+  }
 }
 
 .list {
@@ -33,4 +49,83 @@
   @media screen and (max-width: 575px) {
     width: 100%;
   }
+}
+
+.input {
+  &:global(.ant-input) {
+    border-radius: 8px;
+    padding: 4px 16px;
+  }
+}
+
+.skills {
+  &:global(.ant-col) {
+    padding: 0 !important;
+    @media screen and (max-width: 575px) {
+      width: 100%;
+    }
+  }
+  .newSkill {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .skillsView {
+    max-height: 40px;
+    display: flex;
+    margin-bottom: 16px;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    :global(.ant-typography) {
+      color: #1d1d1d;
+    }
+  }
+
+  .description {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+}
+.education {
+  width: 100%;
+  .body {
+    padding: 16px;
+  }
+  .edu {
+    cursor: pointer;
+    width: 100%;
+    .header {
+      padding: 8px 0;
+    }
+    :global(.ant-col){
+      margin-right: -8px;
+    }
+    label {
+      font-size: 12px;
+      margin-left: 16px;
+    }
+  }
+}
+
+.select {
+  outline: none;
+  height: 32px;
+  border: 1px solid #d9d9d9;
+  width: 100%;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -webkit-appearance: none;
+  padding: 4px 16px;
+  min-width: 132px;
+  margin-bottom: 8px;
+  background-color: white;
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+.singleExperience {
+  display: flex;
+  justify-content: space-between;
 }

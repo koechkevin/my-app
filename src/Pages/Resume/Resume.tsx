@@ -6,6 +6,7 @@ import { Dispatch } from 'redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import { Loading, usePageTitle } from '../../components';
 import constants from '../../redux/constants';
+import {updateResume} from '../../redux/effects/resume';
 import { Resume } from '../../redux/reducers/resume';
 import Achievements from './Achievements';
 import Education from './Education';
@@ -22,13 +23,19 @@ interface ResumeProps extends RouteComponentProps<{username: string}>{
   loading: boolean;
   statusCode: number;
   loadUserName: (username: string) => void;
+  setIsEditable: (isEditable: boolean) => void;
+  auth: any;
+  isEditable: boolean;
+  editResume: (data: any) => void;
+  apiUpdate: ( data: any) => void;
 }
 
 const ResumeComponent: FC<ResumeProps> = (props) => {
-  const { handlePageTitle, name,
+  const { handlePageTitle, name, setIsEditable, auth, isEditable, editResume, apiUpdate,
     statusCode, resume, loading, showSocialIcons, loadUserName, match: { params: { username }} } = props;
 
-  const { overview, skills, work, title, achievements, education, referees } = resume;
+  const { skills, work, title, achievements, education, referees, overview } = resume;
+  const { username: currentUser } = auth;
 
   const pageTitle = usePageTitle({ name, title, page: 'Resume' });
 
@@ -37,6 +44,11 @@ const ResumeComponent: FC<ResumeProps> = (props) => {
       loadUserName(username);
     }
   }, [loadUserName, username]);
+
+  useEffect(() => {
+    setIsEditable(currentUser === username);
+    return () => setIsEditable(false);
+  }, [setIsEditable,username, currentUser]);
 
   useEffect(() => {
     handlePageTitle(pageTitle);
@@ -58,12 +70,37 @@ const ResumeComponent: FC<ResumeProps> = (props) => {
 
   return (
     <Row>
-      <Overview description={overview} title={title} />
-      <Skills skills={skills} />
-      <Education educationList={education} />
-      <WorkExperience work={work} />
-      <Achievements achievements={achievements} />
-      <Referees referees={referees} />
+      <Overview
+        apiUpdate={apiUpdate}
+        editResume={editResume}
+        isEditable={isEditable}
+        description={overview}
+        title={title} />
+      <Skills
+        apiUpdate={apiUpdate}
+        editResume={editResume}
+        isEditable={isEditable}
+        skills={skills} />
+      <Education
+        apiUpdate={apiUpdate}
+        editResume={editResume}
+        isEditable={isEditable}
+        educationList={education} />
+      <WorkExperience
+        apiUpdate={apiUpdate}
+        editResume={editResume}
+        isEditable={isEditable}
+        work={work} />
+      <Achievements
+        apiUpdate={apiUpdate}
+        editResume={editResume}
+        isEditable={isEditable}
+        achievements={achievements} />
+      <Referees
+        referees={referees}
+        apiUpdate={apiUpdate}
+        editResume={editResume}
+        isEditable={isEditable} />
     </Row>
   );
 };
@@ -73,6 +110,8 @@ const mapStateToProps = ({ resume, global, user }: any) => ({
   loading: resume.fetchingResume,
   statusCode: global.statusCode,
   name: `${user.firstName} ${user.lastName}`,
+  auth: global.auth,
+  isEditable: global.isEditable,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -80,6 +119,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch({ type: constants.HANDLE_PAGE_TITLE, payload: pageTitle }),
   loadUserName: (username: string) => dispatch({ type: constants.LOAD_USER_NAME, payload: username}),
   showSocialIcons: (isVisible: boolean) => dispatch({ type: constants.SHOW_SOCIAL_ICONS, payload: isVisible }),
+  setIsEditable: (isEditable: boolean) => dispatch({ type: constants.HANDLE_IS_EDITABLE, payload: isEditable}),
+  editResume: (data: any) => dispatch({ type: constants.EDIT_RESUME, payload: data}),
+  apiUpdate: (data: any) => updateResume(data, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResumeComponent);

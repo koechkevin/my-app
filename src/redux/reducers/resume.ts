@@ -3,20 +3,25 @@ import constants, {Action} from '../constants';
 export interface Skill {
   name: string;
   description: string;
+  editActive?: boolean;
 }
 
 export interface Work {
   organization: string;
-  startDate: string;
-  endDate: string;
+  startMonth: string;
+  startYear: string;
+  endMonth: string;
+  endYear: string;
   role: string;
   description: string;
 }
 
 export interface Education {
   school: string;
-  startDate: string;
-  endDate: string;
+  startMonth: string;
+  startYear: string;
+  endMonth: string;
+  endYear: string;
   description: string;
 }
 
@@ -26,6 +31,14 @@ export interface Referee {
   organization: string;
   email?: string;
   mobile?: string;
+}
+
+export interface Contact {
+  city: string;
+  country: string;
+  emailAddress: string;
+  phone: string;
+  region: string;
 }
 
 export interface Resume {
@@ -38,6 +51,7 @@ export interface Resume {
   education: Education[];
   referees: Referee[];
   fetchingResume: boolean;
+  contacts: Contact
 }
 
 const initialState: Resume = {
@@ -49,6 +63,13 @@ const initialState: Resume = {
   work: [],
   education: [],
   referees: [],
+  contacts: {
+    city: '',
+    country: '',
+    emailAddress: '',
+    phone: '',
+    region: '',
+  },
   fetchingResume: false,
 };
 
@@ -60,6 +81,10 @@ const resume = (state: Resume = initialState, { type, payload }: Action) => {
       return { ...state, fetchingResume: payload};
     case constants.FETCH_RESUME:
       return state;
+    case constants.EDIT_RESUME:
+      return {...state, ...payload};
+    case constants.RESET_RESUME:
+      return {...initialState, fetchingResume: state.fetchingResume}
   }
   return state;
 };

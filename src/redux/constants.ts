@@ -18,6 +18,15 @@ const constants = {
   REQUESTING_EMAIL_ERRORS: 'errors emanating from a user requesting to register',
   AUTH_KEY_TOKEN: 'AUTH_KEY_TOKEN',
   REGISTER_ERRORS: 'errors during register',
+  LOGIN_LOADING: 'login request loading',
+  LOGIN_FAILED: 'login failed',
+  AUTHENTICATE: 'load if user is authenticated',
+  HANDLE_IS_EDITABLE: 'is the resume I am viewing editable by me?',
+  EDIT_RESUME: 'edit resume data',
+  RESET_RESUME: 'return initial state dispatched when component unmounts',
+  FORGOT_PASSWORD_LOADING: 'forgot password loading',
+  FILL_NEW_PASSWORD_LOADING: 'fill new password loading',
+  FILL_NEW_PASSWORD_ERRORS: 'errors fro filling password',
 };
 
 export interface Action {

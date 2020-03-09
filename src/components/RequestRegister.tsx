@@ -82,7 +82,7 @@ const RequestRegister: FC<Props> = (props) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Username"
-          style={message ? { borderBottom: '1px solid red'}:{}}
+          style={message ? { border: '1px solid red'}:{}}
           className={styles.input} />
         <Row style={{ height: 16 }}>
           <Text style={{ fontSize: 12, color: 'red' }}>{message}</Text>

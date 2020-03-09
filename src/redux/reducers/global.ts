@@ -5,7 +5,7 @@ const { HANDLE_PAGE_TITLE, HANDLE_DRAWER,
   SHOW_SOCIAL_ICONS, LOAD_STATUS_CODE, LOAD_USER_NAME,
   REQUESTING_EMAIL,
   REQUESTING_EMAIL_ERRORS,
-  REGISTER_LOADING, REGISTER_ERRORS,
+  REGISTER_LOADING, REGISTER_ERRORS, LOGIN_LOADING, LOGIN_FAILED, AUTHENTICATE, HANDLE_IS_EDITABLE,
 } = constants;
 interface GlobalState {
   pageTitle: string;
@@ -21,6 +21,15 @@ interface GlobalState {
   }
   registerLoading: boolean;
   registerErrors: any[];
+  loginLoading: boolean;
+  loginFailed: boolean;
+  auth: {
+    authenticated: boolean;
+  }
+  isEditable: boolean;
+  forgotPasswordLoading: boolean;
+  fillNewPasswordLoading: boolean;
+  fillNewPasswordErrors: any[];
 }
 
 const initialState: GlobalState = {
@@ -36,6 +45,15 @@ const initialState: GlobalState = {
   },
   registerLoading: false,
   registerErrors: [],
+  loginLoading: false,
+  loginFailed: false,
+  isEditable: false,
+  auth : {
+    authenticated: false,
+  },
+  forgotPasswordLoading: false,
+  fillNewPasswordLoading: false,
+  fillNewPasswordErrors: [],
 };
 
 
@@ -61,6 +79,20 @@ const global:(state: GlobalState, action: Action) => GlobalState = (state = init
       return {...state, requestingEmailErrors: action.payload};
     case REGISTER_ERRORS:
       return {...state, registerErrors: action.payload};
+    case LOGIN_LOADING:
+      return {...state, loginLoading: action.payload};
+    case LOGIN_FAILED:
+      return {...state, loginFailed: action.payload};
+    case AUTHENTICATE:
+      return {...state, auth: action.payload};
+    case HANDLE_IS_EDITABLE:
+      return {...state, isEditable: action.payload};
+    case constants.FORGOT_PASSWORD_LOADING:
+      return {...state, forgotPasswordLoading: action.payload};
+    case constants.FILL_NEW_PASSWORD_LOADING:
+      return {...state, fillNewPasswordLoading: action.payload};
+    case constants.FILL_NEW_PASSWORD_ERRORS:
+      return {...state, fillNewPasswordErrors: action.payload};
     default:
       return state;
   }

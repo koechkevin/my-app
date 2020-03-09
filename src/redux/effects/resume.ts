@@ -3,6 +3,7 @@ import {api} from '../../services/axios';
 import constants from '../constants';
 
 export const fetchResume = async (userId: string, dispatch: Dispatch)  => {
+  dispatch({ type: constants.RESET_RESUME});
   dispatch({ type: constants.FETCH_RESUME_LOADING, payload: true });
   try {
     const {data } = await api.get(`/auth/users/${userId}`);
@@ -28,4 +29,12 @@ export const fetchUsers = async (dispatch: Dispatch)  => {
     throw error;
   }
   dispatch({ type: constants.FETCH_USERS_LOADING, payload: false });
+}
+
+export const updateResume = async (data: any, dispatch: Dispatch) => {
+  try {
+    await api.put('/resume', data);
+  } catch (error) {
+    console.log('=======>', error);
+  }
 }

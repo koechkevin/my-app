@@ -47,3 +47,51 @@ export const validateUsername = async (username: string, dispatch: Dispatch) => 
     }
   }
 }
+
+export const login = async (data: any, dispatch:Dispatch) => {
+try {
+  dispatch({ type: constants.LOGIN_LOADING, payload: true});
+  const response = await api.post('/auth/login', data);
+  authorize(response.data.token);
+  dispatch({ type: constants.LOGIN_LOADING, payload: false});
+  dispatch({ type: constants.HANDLE_MODAL, payload: { loginModal: { open: false }}});
+} catch (error) {
+  dispatch({ type: constants.LOGIN_LOADING, payload: false});
+  dispatch({type: constants.LOGIN_FAILED, payload: true });
+}
+};
+
+export const updateUser = async (data: any, dispatch: Dispatch) => {
+  try {
+    dispatch({ type: constants.LOAD_USER_DETAILS, payload: data});
+    await api.put('/auth/users', data);
+  } catch (error) {}
+};
+
+export const fillNewPassword = async (params: string, data: any, dispatch: Dispatch) => {
+  try {
+    dispatch({type: constants.FILL_NEW_PASSWORD_LOADING, payload: true});
+    const resp = await api.post(`/auth/fill-new-password${params}`, data);
+    authorize(resp.data.token);
+    dispatch({type: constants.FILL_NEW_PASSWORD_LOADING, payload: false});
+  } catch (error) {
+    dispatch({type: constants.FILL_NEW_PASSWORD_LOADING, payload: false});
+    if (error.response && error.response.status === 422) {
+      return dispatch({ type: constants.FILL_NEW_PASSWORD_ERRORS, payload: [error.response.data]});
+    }
+  }
+}
+
+export const forgotPassword = async (data: any, args: any, dispatch: Dispatch) => {
+  try {
+    dispatch({type: constants.FORGOT_PASSWORD_LOADING, payload: true});
+    await api.post('/auth/forgot-password', data);
+    dispatch({type: constants.FORGOT_PASSWORD_LOADING, payload: false});
+    dispatch({ type: constants.HANDLE_MODAL, payload: {
+        loginModal: {  open: false, title: 'Login' },
+      }});
+    notification.success(args);
+  } catch (error) {
+    dispatch({type: constants.FORGOT_PASSWORD_LOADING, payload: false});
+  }
+}

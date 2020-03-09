@@ -8,8 +8,11 @@ const initialState = {
     registerModal: {
       open: true,
     },
+    loginModal : {
+      open: false,
+    },
   },
-}
+};
 
 const common = (state=initialState, action: Action) => {
   if (action.type === constants.HANDLE_MODAL) {
@@ -19,6 +22,6 @@ const common = (state=initialState, action: Action) => {
   } else {
     return state;
   }
-}
+};
 
 export default common;

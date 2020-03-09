@@ -6,6 +6,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    line-height: 36px;
   }
 
   .title {
@@ -16,5 +17,26 @@
   .icons {
     display: flex;
     justify-content: flex-end;
+  }
+}
+
+.menu {
+  &:global(.ant-dropdown-menu) {
+    width: 240px;
+    border-radius: 8px;
+    :global(.ant-dropdown-menu-item) {
+      font-size: 16px;
+      color: #1d1d1d;
+      padding: 8px 16px;
+      line-height: 24px;
+      width: 240px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      text-transform: capitalize;
+      a {
+        color: inherit;
+      }
+    }
   }
 }
