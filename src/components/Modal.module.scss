@@ -7,7 +7,6 @@
   :global(.ant-modal-content) {
     border-radius: 8px;
     @media screen and (max-width: 575px) {
-      height: 100vh;
       display: flex;
       flex-direction: column;
       position: fixed;

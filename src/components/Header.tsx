@@ -8,12 +8,12 @@ import constants from '../redux/constants';
 import {fetchResume} from '../redux/effects/resume';
 import {SocialLink} from '../redux/reducers/user';
 
+import { Link } from 'react-router-dom';
 import Login from '../Pages/Authentication/Login';
 import styles from './Header.module.scss';
 import Icon from './Icon';
 import RequestRegister from './RequestRegister';
 import SocialIcons from './SocialIcons';
-import { Link } from 'react-router-dom';
 
 const { Header } = Layout;
 
@@ -82,11 +82,8 @@ const PageHeader: FC<Props> = (props) => {
               overlay={
                 <Menu className={styles.menu}>
                   <Menu.Item>
-                    {`${firstName} ${lastName}`}
-                  </Menu.Item>
-                  <Menu.Item>
                     <Link to={`/${auth.username}`}>
-                      My Page
+                      My Resume
                     </Link>
                   </Menu.Item>
                   <Menu.Item onClick={() => localStorage.clear()}>Logout</Menu.Item>

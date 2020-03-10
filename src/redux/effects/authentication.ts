@@ -93,5 +93,8 @@ export const forgotPassword = async (data: any, args: any, dispatch: Dispatch) =
     notification.success(args);
   } catch (error) {
     dispatch({type: constants.FORGOT_PASSWORD_LOADING, payload: false});
+    if (error.response) {
+      dispatch({type: constants.FORGOT_PASSWORD_ERRORS, payload: error.response.data});
+    }
   }
 }

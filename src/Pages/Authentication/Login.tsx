@@ -1,5 +1,5 @@
 import {faCheckCircle, faTimes} from '@fortawesome/pro-regular-svg-icons';
-import {Input, Modal, Row, Typography} from 'antd';
+import {Input, Modal, Row, Typography } from 'antd';
 import React, {FC, useState} from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
@@ -17,6 +17,7 @@ interface Props {
   modalTitle: string;
   closeModal: () => void;
   forgotPassword: boolean;
+  forgotPasswordErrors: any;
   displayForgotPassword: (payload: any) => void;
   forgotPasswordAction: (data: any, args: any) => void;
 }
@@ -40,6 +41,7 @@ const Login: FC<Props> = (props) => {
     visible,
     displayForgotPassword,
     modalTitle,
+    forgotPasswordErrors,
     forgotPasswordAction,
     forgotPassword } = props;
 
@@ -94,10 +96,13 @@ const Login: FC<Props> = (props) => {
           <Input
             onChange={onChange}
             name="email"
-            style={{ marginTop: 16 }}
+            style={{ marginTop: 16, marginBottom: 0, borderColor: forgotPasswordErrors.message ? 'red' : '' }}
             value={state.email}
             className={styles.input}
             placeholder="Email" />
+          <div style={{ marginBottom: 16 }}>
+            <Text style={{ fontSize: 12, color: 'red'}}>{forgotPasswordErrors.message}</Text>
+          </div>
           <div
             onClick={() => displayForgotPassword({ open: true, forgotPassword: false, title: 'Login'})}
             style={{ color: '#0050c8', cursor: 'pointer', fontWeight: 600, marginTop: 16, width: 108 }}
@@ -136,6 +141,7 @@ const mapStateToProps = ({ global, common }: any) => ({
   loading: global.forgotPasswordLoading || global.loginLoading,
   loginFailed: global.loginFailed,
   forgotPassword: common.modals.loginModal.forgotPassword,
+  forgotPasswordErrors: global.forgotPasswordErrors,
   modalTitle: common.modals.loginModal.title,
 });
 
@@ -143,7 +149,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   action: (data: any) => login(data, dispatch),
   closeModal: () => dispatch({ type: constants.HANDLE_MODAL, payload: { loginModal: { open: false, title: 'Login' }}}),
   forgotPasswordAction: (data: any, args: any) => forgotPassword(data, args, dispatch),
-  resetErrors: () => dispatch({type: constants.LOGIN_FAILED, payload: false }),
+  resetErrors: () => {
+    dispatch({type: constants.LOGIN_FAILED, payload: false });
+    dispatch({type: constants.FORGOT_PASSWORD_ERRORS, payload: {}});
+  },
   displayForgotPassword: (payload: any) =>
     dispatch({ type: constants.HANDLE_MODAL, payload: { loginModal: payload}}),
 });

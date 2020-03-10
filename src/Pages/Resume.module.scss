@@ -31,6 +31,9 @@
   overflow: scroll;
   min-width: 575px;
   -ms-overflow-style: none;
+  border-radius: 8px;
+  margin-top: 0;
+  max-height: 650px;
   &::-webkit-scrollbar {
     display: none;
   }

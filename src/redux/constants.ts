@@ -23,10 +23,11 @@ const constants = {
   AUTHENTICATE: 'load if user is authenticated',
   HANDLE_IS_EDITABLE: 'is the resume I am viewing editable by me?',
   EDIT_RESUME: 'edit resume data',
-  RESET_RESUME: 'return initial state dispatched when component unmounts',
+  RESET_RESUME: 'return initial state dispatched when component un mounts',
   FORGOT_PASSWORD_LOADING: 'forgot password loading',
   FILL_NEW_PASSWORD_LOADING: 'fill new password loading',
   FILL_NEW_PASSWORD_ERRORS: 'errors fro filling password',
+  FORGOT_PASSWORD_ERRORS: 'forgot password errors',
 };
 
 export interface Action {

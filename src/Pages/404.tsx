@@ -32,7 +32,7 @@ const Exception404: FC<Props> = (props) => {
         </Col>
         <Col style={{ textAlign: 'center' }}>
           <Link to="/">
-          <Button style={{ background: '#0050c8', marginTop: 8 }} type="primary">
+          <Button style={{ background: '#0050c8', marginTop: 8, borderRadius: 8 }} type="primary">
             Back to Home
           </Button>
           </Link>

@@ -1,12 +1,13 @@
-import {Avatar, List} from 'antd';
+import {Avatar, List, Row} from 'antd';
 import React, {FC, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Dispatch} from 'redux';
 
 import styles from './Resume.module.scss';
 
-import { fetchUsers} from '../redux/effects/resume';
+import Title from 'antd/lib/typography/Title';
 import { Link } from 'react-router-dom';
+import { fetchUsers} from '../redux/effects/resume';
 
 const { Item } = List;
 const { Meta } = Item;
@@ -23,6 +24,18 @@ const ResumeList: FC<Props> = (props) => {
   }, [fetchUsersAction]);
 
   return (
+    <Row style={{ display: 'flex', justifyContent: 'center'}}>
+      <Title level={4} style={{
+        maxWidth: 575,
+        width: '100%',
+        height: 64,
+        marginBottom: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 32}}>
+        Resume List
+      </Title>
     <List
       dataSource={users}
       className={styles.list}
@@ -42,6 +55,7 @@ const ResumeList: FC<Props> = (props) => {
         </Item>
       )}
     />
+    </Row>
   );
 };
 

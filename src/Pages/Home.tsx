@@ -26,9 +26,6 @@ const Home: FC<Props> = (props) => {
       <Col className={styles.body}>
         <ResumeList />
       </Col>
-     <Col className={styles.footer}>
-       <p />
-     </Col>
     </Row>
   );
 };
