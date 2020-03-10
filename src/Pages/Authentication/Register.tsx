@@ -1,11 +1,9 @@
-import { faTimes } from '@fortawesome/pro-regular-svg-icons';
-import { Input, Modal, Row, Typography, Button } from 'antd';
+import { Button, Input, Row, Typography } from 'antd';
 import Title from 'antd/lib/typography/Title';
 import React, { FC, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import { Dispatch } from 'redux';
-import Icon from '../../components/Icon';
 import styles from '../../components/Modal.module.scss';
 import constants from '../../redux/constants';
 import { register, validateUsername } from '../../redux/effects/authentication';
@@ -13,7 +11,6 @@ import { register, validateUsername } from '../../redux/effects/authentication';
 interface Props extends RouteComponentProps {
   hideSideBar: () => void;
   openModal: () => void;
-  closeModal: () => void;
   visible: boolean;
   action: (data: any, search: string) => void;
   loading: boolean;
@@ -25,25 +22,8 @@ interface Props extends RouteComponentProps {
 const { Text } = Typography;
 const { Password } = Input;
 
-const okButtonProps = {
-  style: { minWidth: 80, borderRadius: 8, padding: '4px 16px' },
-};
-
-const cancelButtonProps = {
-  style: {
-    minWidth: 80,
-    borderRadius: 8,
-    fontSize: 16,
-    fontWeight: 600,
-    border: 'none',
-    color: '#0050c8',
-    padding: '4px 16px',
-  },
-};
-
 const Register: FC<Props> = (props) => {
   const {
-    closeModal,
     validate,
     hideSideBar,
     location: { search },
@@ -181,13 +161,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
       type: constants.HANDLE_MODAL,
       payload: {
         registerModal: { open: true },
-      },
-    }),
-  closeModal: () =>
-    dispatch({
-      type: constants.HANDLE_MODAL,
-      payload: {
-        registerModal: { open: false },
       },
     }),
   action: (data: any, search: string) => register(data, search, dispatch),

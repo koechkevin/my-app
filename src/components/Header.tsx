@@ -51,7 +51,7 @@ const PageHeader: FC<Props> = (props) => {
     }
   }, [fetchResume, username]);
 
-  const  { authenticated, firstName, lastName } = auth;
+  const  { authenticated } = auth;
 
   return (
     <Header className={styles.header}>
