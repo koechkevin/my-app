@@ -81,7 +81,7 @@ const ChildrenSideBar: FC<Props> = (props) => {
       </Row>
       <Row className={styles.bordered} />
 
-      <Menu theme="dark" className={styles.menu} style={{ width: '100%' }}>
+      <Menu theme="dark" className={styles.menu} style={{ width: '100%', marginBottom: 32 }}>
         <Item style={{ margin: 0, height: 32 }}>
           <Link to={username ? `/${username}/resume` : 'resume'}>
             <Text style={{ color: '#ffffff' }}>Resume</Text>
@@ -89,7 +89,7 @@ const ChildrenSideBar: FC<Props> = (props) => {
         </Item>
       </Menu>
 
-      <Row className={styles.bordered} />
+      {/*<Row className={styles.bordered} />*/}
 
       <QuickLinks quickLinks={quickLinks} />
     </Row>

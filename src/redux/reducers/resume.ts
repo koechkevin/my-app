@@ -55,8 +55,8 @@ export interface Resume {
 }
 
 const initialState: Resume = {
-  overview: '',
-  title: '',
+  overview: 'Overview',
+  title: 'Title',
   name: '',
   achievements: [],
   skills: [],

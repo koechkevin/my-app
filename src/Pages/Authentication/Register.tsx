@@ -17,6 +17,7 @@ interface Props extends RouteComponentProps {
   errors: any[];
   resetErrors: () => void;
   validate: (username: string) => void;
+  auth: any;
 }
 
 const { Text } = Typography;
@@ -31,6 +32,7 @@ const Register: FC<Props> = (props) => {
     loading,
     errors,
     resetErrors,
+    auth,
   } = props;
 
   const [state, setState] = useState({
@@ -52,7 +54,7 @@ const Register: FC<Props> = (props) => {
     return <Redirect to="/exception/404" />;
   }
 
-  const disabled: boolean = !state.username || !state.firstName || !state.lastName || !state.password;
+  const disabled: boolean = !state.username.trim() || !state.firstName || !state.lastName || !state.password;
 
   const onChange = (e: any) => {
     e.persist();
@@ -65,6 +67,10 @@ const Register: FC<Props> = (props) => {
   };
 
   const onOk = () => action({ ...state }, search);
+
+  if (auth.authenticated && auth.username) {
+    return <Redirect to={`/${auth.username}`}/>
+  }
 
   return (
     <Row className={styles.register}>
@@ -138,7 +144,7 @@ const Register: FC<Props> = (props) => {
         <Button
           disabled={disabled}
           onClick={onOk}
-          style={{ background: '#0050c8', color: 'white'}}
+          style={{ background: '#0050c8', color: 'white', opacity: disabled ? 0.3 : ''}}
           className={styles.button}
           type="primary">
           {loading ? 'Sending...' : 'Send'}
@@ -152,6 +158,7 @@ const mapStateToProps = ({ common, global }: any) => ({
   visible: common.modals.registerModal.open,
   loading: global.registerLoading,
   errors: global.registerErrors,
+  auth: global.auth,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

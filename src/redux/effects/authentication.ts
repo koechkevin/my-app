@@ -26,7 +26,6 @@ export const register = async (data: any, params: string, dispatch: Dispatch) =>
     dispatch({ type: constants.REGISTER_LOADING, payload: true});
     const response = await api.post(`/auth/register${params}`, data);
     authorize(response.data.token);
-    window.location.href = '/';
   } catch(error) {
     dispatch({ type: constants.REGISTER_LOADING, payload: false});
     if (error.response && error.response.status === 422) {
@@ -38,12 +37,14 @@ export const register = async (data: any, params: string, dispatch: Dispatch) =>
 };
 
 export const validateUsername = async (username: string, dispatch: Dispatch) => {
-  try {
-    await api.post('/auth/validate-username', { username });
-    dispatch({ type: constants.REGISTER_ERRORS, payload: []});
-  } catch (error) {
-    if (error.response && error.response.status === 422) {
-      return dispatch({ type: constants.REGISTER_ERRORS, payload: error.response.data.errors});
+  if (username && username.trim()) {
+    try {
+      await api.post('/auth/validate-username', { username });
+      dispatch({ type: constants.REGISTER_ERRORS, payload: []});
+    } catch (error) {
+      if (error.response && error.response.status === 422) {
+        return dispatch({ type: constants.REGISTER_ERRORS, payload: error.response.data.errors});
+      }
     }
   }
 }
