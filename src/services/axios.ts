@@ -1,7 +1,7 @@
 import axios from 'axios';
 import constants from '../redux/constants';
 
-export const baseUrl = 'http://192.168.0.28:5000';
+export const baseUrl = 'https://my-staging-api.herokuapp.com';
 
 
 export const api = {

@@ -18,9 +18,7 @@ const Home: FC<Props> = (props) => {
     return () => handleSidebar(true);
   }, [handleSidebar]);
 
-  useEffect(() => {
-
-  }, []);
+  console.log('============>', 'successfully deployed')
   return (
     <Row className={styles.home}>
       <Col className={styles.body}>
