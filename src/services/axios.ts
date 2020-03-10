@@ -1,7 +1,10 @@
 import axios from 'axios';
 import constants from '../redux/constants';
 
-export const baseUrl = 'https://my-staging-api.herokuapp.com';
+const environment = process.env.NODE_ENV;
+
+export const baseUrl = environment === 'development' ? 'http://localhost:5000'
+  :'https://my-staging-api.herokuapp.com';
 
 
 export const api = {
