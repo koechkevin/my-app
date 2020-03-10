@@ -59,7 +59,7 @@ const initialState: GlobalState = {
 };
 
 
-const global:(state: GlobalState, action: Action) => GlobalState = (state = initialState, action: Action) => {
+const globalState:(state: GlobalState, action: Action) => GlobalState = (state = initialState, action: Action) => {
   switch(action.type){
     case HANDLE_PAGE_TITLE:
       return {...state, pageTitle: action.payload};
@@ -102,4 +102,4 @@ const global:(state: GlobalState, action: Action) => GlobalState = (state = init
   }
 };
 
-export default global
+export default globalState
