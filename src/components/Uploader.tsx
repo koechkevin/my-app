@@ -11,7 +11,7 @@ const Uploader: FC<any> = (props) => {
 
   const errorMessage  = (message: string) => notification.error({
     message,
-    duration: 0,
+    duration: 6,
     className: styles.notification,
     icon: <Icon color="red" icon={faExclamationCircle} />,
     placement: 'topLeft',
