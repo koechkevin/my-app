@@ -1,5 +1,5 @@
 import {Dispatch} from 'redux';
-import {api} from '../../services/axios';
+import {api, files} from '../../services/axios';
 import constants from '../constants';
 
 export const fetchResume = async (userId: string, dispatch: Dispatch)  => {
@@ -34,7 +34,23 @@ export const fetchUsers = async (dispatch: Dispatch)  => {
 export const updateResume = async (data: any, dispatch: Dispatch) => {
   try {
     await api.put('/resume', data);
-  } catch (error) {
-    console.log('=======>', error);
-  }
-}
+  } catch (error) {}
+};
+
+export const uploadAvatar = async (file: any, errorCallBack: (message: string) => void, dispatch: Dispatch) => {
+  dispatch({ type: constants.LOAD_USER_DETAILS, payload: { avatarUrl: ''}});
+ try {
+   const config = {
+     onUploadProgress: (progressEvent: any) => {
+       dispatch({
+         type: constants.UPLOAD_PROGRESS,
+         payload: Math.round((progressEvent.loaded * 100) / progressEvent.total),
+       })
+     },
+   };
+   const { data } = await files.post('/resume/files/avatar', file, config);
+   dispatch({ type: constants.LOAD_USER_DETAILS, payload: { avatarUrl: data.secureUrl}});
+ } catch(error){
+   errorCallBack('Avatar upload Failed. An unexpected error occurred. Please try again!');
+ }
+};

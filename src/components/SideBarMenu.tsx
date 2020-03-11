@@ -7,11 +7,12 @@ import { useMedia } from 'react-use';
 import { Dispatch } from 'redux';
 import constants from '../redux/constants';
 import {updateUser} from '../redux/effects/authentication';
-import {fetchResume} from '../redux/effects/resume';
+import {fetchResume, uploadAvatar} from '../redux/effects/resume';
 import { UserState } from '../redux/reducers/user';
 import Icon from './Icon';
 import QuickLinks from './QuickLinks';
 import styles from './SideMenu.module.scss';
+import Uploader from './Uploader';
 
 const { Text } = Typography;
 
@@ -24,17 +25,23 @@ interface Props {
   user: UserState;
   username: string;
   isEditable: boolean;
+  uploadProgress: number;
   handleDrawer: (open: boolean) => void;
   fetchResume: (userId: string) => void;
   editUser: (data: any) => void;
+  uploadAction: (path: string, errorMessage: (message: string) => void) => void;
 }
 
 const ChildrenSideBar: FC<Props> = (props) => {
   const {
-    user: { quickLinks, firstName, lastName, avatarColor }, username, isEditable, editUser,
+    user: { quickLinks, firstName, lastName, avatarColor, avatarUrl },
+    username, isEditable, editUser, uploadAction, uploadProgress,
   } = props;
 
   const [name, setName] = useState('');
+  const [hover, setHover] = useState({
+    avatar: false,
+  });
 
   useEffect(() => {
     setName(`${firstName} ${lastName}`);
@@ -54,11 +61,26 @@ const ChildrenSideBar: FC<Props> = (props) => {
   return (
     <Row>
       <Row className={styles.row}>
+        <span
+          onMouseLeave={() => setHover((s) => ({...s, avatar: false}))}
+          style={{ position: 'relative'}}
+          onMouseOver={() => setHover((s) => ({...s, avatar: true}))}>
+          {isEditable && <Uploader action={uploadAction} color={hover.avatar ? '' : 'transparent'}/>}
         <Avatar
-          style={{ fontSize: 75, fontWeight: 'bold', background: avatarColor }}
+          style={{
+            fontSize: uploadProgress ? 12 : 75,
+            fontWeight: 'bold',
+            background: uploadProgress ? 'white' :avatarColor,
+            position: 'relative',
+            opacity: hover.avatar && isEditable ? 0.8 : '',
+          }}
+          src={avatarUrl}
           size={160} className={styles.avatar}>
-          {firstName.split('')[0]}{lastName.split('')[0]}
+          {firstName.split('')[0]}
+          {uploadProgress > 0 && <span style={{ color: '#1d1d1d'}}>{uploadProgress}%</span>}
+          {lastName.split('')[0]}
         </Avatar>
+        </span>
         <div
           style={{ justifyContent: isEditable ? 'space-between' : 'space-around'}}
           className={styles.name}>
@@ -123,11 +145,12 @@ const SideBarMenu: FC<Props> = (props) => {
   );
 };
 
-const mapStateToProps = ({ global, user }: any) => ({
+const mapStateToProps = ({ global, user, common }: any) => ({
   pageTitle: global.pageTitle,
   drawerOpen: global.drawerOpen,
   username: global.username,
   isEditable: global.isEditable,
+  uploadProgress: common.uploadPercent,
   user,
 });
 
@@ -135,6 +158,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   handleDrawer: (open: boolean) => dispatch({ type: constants.HANDLE_DRAWER, payload: open }),
   fetchResume: (userId: string) => fetchResume(userId, dispatch),
   editUser: (data: any) => updateUser(data, dispatch),
+  uploadAction: (file: any, callback: (message: string) => void) => uploadAvatar(file, callback, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SideBarMenu);

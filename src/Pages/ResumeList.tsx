@@ -48,7 +48,10 @@ const ResumeList: FC<Props> = (props) => {
               </Link>
             }
             description={item.resume && item.resume.title}
-            avatar={<Avatar size={40} style={{ fontSize: 16, fontWeight: 'bold', background: item.avatarColor || '#106cc8' }}
+            avatar={<Avatar
+              src={item.avatarUrl}
+              size={40}
+              style={{ fontSize: 16, fontWeight: 'bold', background: item.avatarColor || '#106cc8' }}
             >
             {item.firstName.split('')[0]}{item.lastName.split('')[0]}
           </Avatar>} />

@@ -28,6 +28,7 @@ const constants = {
   FILL_NEW_PASSWORD_LOADING: 'fill new password loading',
   FILL_NEW_PASSWORD_ERRORS: 'errors fro filling password',
   FORGOT_PASSWORD_ERRORS: 'forgot password errors',
+  UPLOAD_PROGRESS: 'upload progress',
 };
 
 export interface Action {

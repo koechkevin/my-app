@@ -12,15 +12,19 @@ const initialState = {
       open: false,
     },
   },
+  uploadPercent: 0,
 };
 
 const common = (state=initialState, action: Action) => {
-  if (action.type === constants.HANDLE_MODAL) {
-    return {...state, modals: {
-      ...state.modals, ...action.payload,
-      }};
-  } else {
-    return state;
+  switch (action.type) {
+    case constants.HANDLE_MODAL:
+      return {...state, modals: {
+          ...state.modals, ...action.payload,
+        }};
+    case constants.UPLOAD_PROGRESS:
+      return {...state, uploadPercent: action.payload};
+    default:
+      return state;
   }
 };
 
