@@ -26,3 +26,18 @@ export const api = {
         return axios.put(`${baseUrl}${url}`, data,  extraConfig);
     },
 };
+
+export const files = {
+    post: (url: string, file: any, config?: any) => {
+        const apiKey = () => localStorage.getItem(constants.AUTH_KEY_TOKEN);
+        const baseConfig = {
+            headers: {
+                authorization: apiKey(),
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }};
+        const extraConfig = {...config, ...baseConfig};
+        const formData = new FormData();
+        formData.append('file', file);
+        return axios.post(`${baseUrl}${url}`, formData, extraConfig);
+    },
+};

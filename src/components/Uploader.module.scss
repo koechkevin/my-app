@@ -1,0 +1,23 @@
+@import '../../src/components/Modal.module.scss';
+.uploader {
+  position: absolute;
+  top: 50%;
+  left: 36%;
+  transform: translateY(-50%);
+  z-index: 3;
+  :global(ant-upload-list ant-upload-list-text),
+  :global(.ant-upload-list-item-info),
+  :global(.ant-upload-list-item-progress) {
+    display: none;
+  }
+
+  .upload {
+    position: absolute;
+    width: 32px;
+  }
+  .icon {
+    cursor: pointer;
+    position: relative;
+    top: -18px;
+  }
+}
