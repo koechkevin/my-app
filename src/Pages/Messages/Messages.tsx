@@ -1,5 +1,4 @@
-import { Button, Row } from 'antd';
-import Title from 'antd/es/typography/Title';
+import { Button } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import moment from 'moment';
 import React, {FC, ReactNode, useEffect, useState} from 'react';
@@ -65,12 +64,6 @@ const Message: FC<any> = (props) => {
   useEffect( () => {
     getMessages({ currentUser: from, user: to}, dispatch).then(() => {});
   }, [to, from, dispatch]);
-
-  // useEffect(() => {
-  //   if (auth.authenticated) {
-  //     dispatch({ type: constants.SHOW_HIDE_SIDEBAR, payload: true});
-  //   }
-  // }, [dispatch, auth.authenticated]);
 
   useEffect(() => {
     if (username) {
