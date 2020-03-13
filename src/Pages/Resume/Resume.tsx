@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { Redirect, RouteComponentProps } from 'react-router-dom';
-import { Loading, usePageTitle } from '../../components';
+import { Loading, PageTitle } from '../../components';
 import constants from '../../redux/constants';
 import {updateResume} from '../../redux/effects/resume';
 import { Resume } from '../../redux/reducers/resume';
@@ -37,8 +37,6 @@ const ResumeComponent: FC<ResumeProps> = (props) => {
   const { skills, work, title, achievements, education, referees, overview } = resume;
   const { username: currentUser } = auth;
 
-  const pageTitle = usePageTitle({ name, title, page: 'Resume' });
-
   useEffect(() => {
     if (username) {
       loadUserName(username);
@@ -51,9 +49,10 @@ const ResumeComponent: FC<ResumeProps> = (props) => {
   }, [setIsEditable,username, currentUser]);
 
   useEffect(() => {
+    const pageTitle = <PageTitle name={name} title={title} page={'Resume'}/>;
     handlePageTitle(pageTitle);
     return () => handlePageTitle('');
-  }, [handlePageTitle, pageTitle]);
+  }, [handlePageTitle, name, title]);
 
   useEffect(() => {
     showSocialIcons(true);

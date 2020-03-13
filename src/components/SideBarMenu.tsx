@@ -1,12 +1,14 @@
 import {faPencilAlt} from '@fortawesome/pro-light-svg-icons';
 import { Avatar, Drawer, Layout, Menu, Row, Typography } from 'antd';
 import React, {FC, useEffect, useState} from 'react';
-import { connect } from 'react-redux';
+import {connect, useDispatch, useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useMedia } from 'react-use';
 import { Dispatch } from 'redux';
+import ChatList from '../Pages/Messages/ChatList';
 import constants from '../redux/constants';
 import {updateUser} from '../redux/effects/authentication';
+import {getChats, getMessages} from '../redux/effects/messaging';
 import {fetchResume, uploadAvatar} from '../redux/effects/resume';
 import { UserState } from '../redux/reducers/user';
 import Icon from './Icon';
@@ -29,6 +31,7 @@ interface Props {
   handleDrawer: (open: boolean) => void;
   fetchResume: (userId: string) => void;
   editUser: (data: any) => void;
+  fetchMessages: (data: any) => void;
   uploadAction: (path: string, errorMessage: (message: string) => void) => void;
 }
 
@@ -42,6 +45,19 @@ const ChildrenSideBar: FC<Props> = (props) => {
   const [hover, setHover] = useState({
     avatar: false,
   });
+
+  const redux = useSelector(({ user: { email, username, firstName, lastName, id }, global, messages }: any) => ({
+    to: id, recipient: { email, username, firstName, lastName, userId: id},
+    auth: global.auth, list: messages.messageList,
+  }));
+
+  const {  auth: { userId } } = redux;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getChats({ currentUser: userId }, dispatch).then(() => {});
+  }, [userId, dispatch]);
 
   useEffect(() => {
     setName(`${firstName} ${lastName}`);
@@ -111,9 +127,9 @@ const ChildrenSideBar: FC<Props> = (props) => {
         </Item>
       </Menu>
 
-      {/*<Row className={styles.bordered} />*/}
-
       <QuickLinks quickLinks={quickLinks} />
+      <Row className={styles.bordered} />
+      <ChatList/>
     </Row>
   );
 };
@@ -158,6 +174,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   handleDrawer: (open: boolean) => dispatch({ type: constants.HANDLE_DRAWER, payload: open }),
   fetchResume: (userId: string) => fetchResume(userId, dispatch),
   editUser: (data: any) => updateUser(data, dispatch),
+  fetchMessages: (data: any)=> getMessages(data, dispatch),
   uploadAction: (file: any, callback: (message: string) => void) => uploadAvatar(file, callback, dispatch),
 });
 

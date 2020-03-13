@@ -46,7 +46,7 @@ const Contacts: FC<Props> = (props) => {
     }
   }, [isEditable]);
   return (
-    <Row style={{ marginBottom: 16, maxWidth: 575 }}>
+    <Row style={{ marginBottom: 16, width: '100%'}}>
       <Title level={4} style={{ width: '100%', fontSize: 16, color: '#1d1d1d', display: 'flex', alignItems: 'center'}} >
         <span style={{ marginRight: 16}}>Contacts</span>
       </Title>
