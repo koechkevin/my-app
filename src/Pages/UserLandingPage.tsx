@@ -1,11 +1,11 @@
 import {faPencilAlt} from '@fortawesome/pro-light-svg-icons';
-import {Button, Input, Row, Typography} from 'antd';
+import {Button, Input, Row, Typography, Col} from 'antd';
 import React, {FC, ReactNode, useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router';
 import { Link } from 'react-router-dom';
 import {Dispatch} from 'redux';
-import {Icon, usePageTitle} from '../components';
+import {Icon, PageTitle} from '../components';
 import constants from '../redux/constants';
 import {updateResume} from '../redux/effects/resume';
 import Contacts from './Resume/Contacts';
@@ -58,12 +58,11 @@ const UserLandingPage: FC<any> = (props) => {
     return () => showSocialIcons(false);
   }, [showSocialIcons]);
 
-  const pageTitle = usePageTitle({ name, title });
-
   useEffect(() => {
+    const pageTitle = <PageTitle name={name} title={title}/>
     handlePageTitle(pageTitle);
     return () => handlePageTitle('');
-  }, [handlePageTitle, pageTitle]);
+  }, [handlePageTitle, name, title]);
 
   useEffect(() => {
     if (username) {
@@ -124,26 +123,49 @@ const UserLandingPage: FC<any> = (props) => {
         style={{
           width: '100%',
           marginTop: 32,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
         }}>
         <Contacts
           apiUpdate={apiUpdate}
           editResume={editResume}
           isEditable={isEditable}
           contacts={contacts} />
+      </Row>
+      <Row gutter={16} style={{
+        width: '100%',
+        marginTop: 16,
+        marginBottom: 32,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+      }}>
+        <Col xs={24} sm={12}>
         <Link to={`/${username}/resume`}>
-        <Button
-          style={{
-            background:'transparent',
-            color: '#0050c8',
-            borderColor: '#0050c8',
-            borderRadius: 8,
-            marginBottom: 16,
-          }}
-        >View {name}'s full resume here</Button>
+          <Button
+            style={{
+              background:'transparent',
+              color: '#0050c8',
+              borderColor: '#0050c8',
+              width: '100%',
+              borderRadius: 8,
+              marginBottom: 16,
+            }}
+          >View {name}'s full resume here</Button>
         </Link>
+        </Col>
+        <Col xs={24} sm={12}>
+          <Link to={`/${username}/messages`}>
+      <Button
+        style={{
+          background:'#0050c8',
+          width: '100%',
+          color: 'white',
+          borderColor: '#0050c8',
+          borderRadius: 8,
+          marginBottom: 16,
+        }}
+        type="primary">Send Direct Message</Button>
+          </Link>
+        </Col>
       </Row>
   </Row>
   )

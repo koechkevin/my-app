@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import { Provider }  from 'react-redux';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {PageLayout} from './components';
@@ -6,12 +6,18 @@ import {Home, Resume} from './Pages';
 import Exception404 from './Pages/404';
 import FillNewPassword from './Pages/Authentication/FillNewPassword';
 import Register from './Pages/Authentication/Register';
+import Message from './Pages/Messages/Messages';
 import UserLandingPage from './Pages/UserLandingPage';
+import {messageListener} from './redux/effects/messaging';
 import store from './redux/store';
 
 import 'antd/dist/antd.css';
 
+
 const App: FC<any> = () => {
+  useEffect(() => {
+    messageListener('')
+  }, []);
 
   return (
     <Provider store={store}>
@@ -23,7 +29,13 @@ const App: FC<any> = () => {
             <Route exact path="/:username/resume" component={Resume} />
             <Route exact path="/auth/register" component={Register} />
             <Route exact path="/auth/fill-new-password" component={FillNewPassword} />
-            <Route exact path="/exception/404" component={Exception404} />
+            <Route exact path="/:username/messages" component={Message} />
+            <Route exact path="/exception/404" render={() =><Exception404 exception={404} text="Sorry, the page you visited does not exist." />} />
+            <Route
+              exact
+              path="/exception/403"
+              render={() =><Exception404 exception={403} text="You are not authorized to access this page. Please login to continue" />}
+            />
             <Route exact path="" component={Exception404} />
           </Switch>
       </PageLayout>

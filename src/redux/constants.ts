@@ -29,6 +29,9 @@ const constants = {
   FILL_NEW_PASSWORD_ERRORS: 'errors fro filling password',
   FORGOT_PASSWORD_ERRORS: 'forgot password errors',
   UPLOAD_PROGRESS: 'upload progress',
+  LOAD_MESSAGES: 'load messages list',
+  LOAD_CHATS:'load chats list',
+  ADD_MESSAGE: 'add a message I have written',
 };
 
 export interface Action {

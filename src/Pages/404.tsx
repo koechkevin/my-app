@@ -12,23 +12,28 @@ const { Title, Text } = Typography;
 interface Props {
   hideSideBar: () => void;
   resetStatusCode: () => void;
+  exception: number;
+  text: string;
+  showSidebar?: boolean;
 }
 const Exception404: FC<Props> = (props) => {
-  const { hideSideBar, resetStatusCode } = props;
+  const { hideSideBar, resetStatusCode, exception, text, showSidebar } = props;
   const url = `${process.env.PUBLIC_URL}/not.png`;
 
   useEffect(() => {
-    hideSideBar();
-  }, [hideSideBar]);
+    if (!showSidebar) {
+      hideSideBar();
+    }
+  }, [hideSideBar,showSidebar]);
 
   useEffect(() => resetStatusCode , [resetStatusCode]);
   return (
     <Row className={styles.exception} style={{ height: '100%' }}>
-      <Col>
+      <Col style={{ textAlign: 'center'}}>
         <img alt="background" width={280} height={320} src={url} />
-        <Title style={{ textAlign: 'center' }}>404</Title>
+        <Title style={{ textAlign: 'center' }}>{exception}</Title>
         <Col>
-          <Text>Sorry, the page you visited does not exist.</Text>
+          <Text>{text}</Text>
         </Col>
         <Col style={{ textAlign: 'center' }}>
           <Link to="/">

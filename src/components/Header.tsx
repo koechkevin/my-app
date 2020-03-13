@@ -1,9 +1,11 @@
 import {faEllipsisV, faStream} from '@fortawesome/pro-regular-svg-icons';
 import {Button, Col, Dropdown, Layout, Menu} from 'antd';
+import moment from 'moment';
 import React, {FC, useEffect} from 'react';
 import { connect } from 'react-redux';
 import { useMedia } from 'react-use';
 import { Dispatch } from 'redux';
+import {database} from '../firebase';
 import constants from '../redux/constants';
 import {fetchResume} from '../redux/effects/resume';
 import {SocialLink} from '../redux/reducers/user';
@@ -51,7 +53,14 @@ const PageHeader: FC<Props> = (props) => {
     }
   }, [fetchResume, username]);
 
-  const  { authenticated } = auth;
+  const  { authenticated, userId } = auth;
+
+  const logout = () => {
+    if (userId) {
+      database.ref(`/users/${userId}/status`).set(moment().toString());
+    }
+    localStorage.clear();
+  };
 
   return (
     <Header className={styles.header}>
@@ -86,7 +95,7 @@ const PageHeader: FC<Props> = (props) => {
                       My Resume
                     </Link>
                   </Menu.Item>
-                  <Menu.Item onClick={() => localStorage.clear()}>Logout</Menu.Item>
+                  <Menu.Item onClick={logout}>Logout</Menu.Item>
                 </Menu>
               }>
               <span style={{ maxHeight: 32 }}>

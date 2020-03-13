@@ -4,8 +4,8 @@ import Icon from './Icon';
 import Loading from './Loading';
 import PageLayout from './PageLayout';
 import SideBarMenu from './SideBarMenu';
-import usePageTitle from './usePageTitle';
+import PageTitle from './usePageTitle';
 
 export  {
-  Icon, Header, SideBarMenu, PageLayout, Loading, usePageTitle, Dates
+  Icon, Header, SideBarMenu, PageLayout, Loading, PageTitle, Dates
 };
