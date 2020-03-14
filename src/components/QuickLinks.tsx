@@ -21,6 +21,7 @@ export const QuickLinks: FC<Props> = (props) => {
             <Col>
               <Text style={{ fontSize: 16, color: 'rgba(255, 255, 255, 0.54)', padding: 16 }}>{quickLink.title}</Text>
             </Col>
+            <div className={styles.quickLink}>
             <Menu theme="dark" className={styles.menu} style={{ width: '100%' }}>
               {quickLink.details.map((detail: Detail, index: number) => {
                 return (
@@ -35,6 +36,7 @@ export const QuickLinks: FC<Props> = (props) => {
                 );
               })}
             </Menu>
+            </div>
           </Fragment>
         );
       })}

@@ -34,7 +34,7 @@ const initialState: UserState = {
 const user: (state: User, action: Action) => User = (state: User = initialState, {type, payload}: Action) => {
   switch(type){
     case constants.LOAD_USER_DETAILS:
-      return {...state, ...payload};
+      return {...state, quickLinks: [], avatarColor: '', avatarUrl: '', ...payload};
     case 'constants':
       return state;
     default:

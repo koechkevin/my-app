@@ -31,7 +31,7 @@ const UserLandingPage: FC<any> = (props) => {
     overview: false, title: false,
   });
 
-  const { username: currentUser } = auth;
+  const { username: currentUser, authenticated } = auth;
 
   const onChange = (e: any) => {
     e.persist();
@@ -149,11 +149,15 @@ const UserLandingPage: FC<any> = (props) => {
               borderRadius: 8,
               marginBottom: 16,
             }}
-          >View {name}'s full resume here</Button>
+          >
+            <div style={{ overflow: 'hidden', textOverflow: 'ellipsis'}}>
+            <Text style={{color: '#0050c8'}} ellipsis>View {name}'s full resume here</Text>
+            </div>
+          </Button>
         </Link>
         </Col>
         <Col xs={24} sm={12}>
-          <Link to={`/${username}/messages`}>
+         { authenticated && currentUser !== username && <Link to={`/${username}/messages`}>
       <Button
         style={{
           background:'#0050c8',
@@ -164,7 +168,23 @@ const UserLandingPage: FC<any> = (props) => {
           marginBottom: 16,
         }}
         type="primary">Send Direct Message</Button>
-          </Link>
+          </Link>}
+          { (!authenticated || currentUser === username) && <Button
+            disabled
+              style={{
+                background:'#0050c8',
+                width: '100%',
+                color: 'white',
+                borderColor: '#0050c8',
+                borderRadius: 8,
+                opacity: 0.5,
+                marginBottom: 16,
+              }}
+              type="primary">
+            <div style={{ overflow: 'hidden', textOverflow: 'ellipsis'}}>
+            {!authenticated ? `Login to send a message to ${name}`: 'Cannot send a direct message to yourself'}
+            </div>
+          </Button>}
         </Col>
       </Row>
   </Row>

@@ -74,6 +74,10 @@
 
 .projects {
   width: 100%;
+  .quickLink {
+    max-height: 160px;
+    overflow: scroll;
+  }
 }
 
 .bordered {

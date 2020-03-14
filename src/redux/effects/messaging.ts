@@ -25,22 +25,24 @@ export const createMessage = async ({from, to, message, id, recipient, me }: any
   callback && callback();
 };
 
-export const getMessages = async ({ currentUser, user}: any, dispatch: Dispatch) => {
-  database.ref(`/chats/${currentUser}/${user}/list`)
-    .on('value', (snapshot, b) => {
+export const getMessages = ({ currentUser, user}: any, dispatch: Dispatch) => {
+  const subscription = database.ref(`/chats/${currentUser}/${user}/list`);
+  subscription.on('value', (snapshot, b) => {
       const value = snapshot.val();
       const chats = value && Object.keys(value).map((each: string) => {
         return {...value[each], firebaseId: each}
       });
       dispatch({ type: constants.LOAD_MESSAGES, payload: chats || []});
     });
+  return subscription;
 }
 
-export const getChats = async ({ currentUser }: any, dispatch: Dispatch) => {
+export const getChats = ({ currentUser }: any, dispatch: Dispatch) => {
   const ref = database.ref(`chats/${currentUser}`);
   ref.on('value', (snapshot) => {
     const value = snapshot.val() || {};
     const list = Object.values(value).filter((each: any) => !!each.user);
     dispatch({ type: constants.LOAD_CHATS, payload: list})
-  })
-}
+  });
+  return ref;
+};

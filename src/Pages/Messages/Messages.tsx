@@ -44,6 +44,12 @@ const Message: FC<any> = (props) => {
   const name = `${firstName} ${lastName}`;
 
   useEffect(() => {
+    if (username) {
+      loadUserName(username);
+    }
+  }, [loadUserName, username]);
+
+  useEffect(() => {
     const pageTitle = <PageTitle name={name} title={title} page="Chats" />;
     handlePageTitle(pageTitle);
     return () => handlePageTitle('');
@@ -62,14 +68,9 @@ const Message: FC<any> = (props) => {
 
   const dispatch = useDispatch();
   useEffect( () => {
-    getMessages({ currentUser: from, user: to}, dispatch).then(() => {});
+    const subscription = getMessages({ currentUser: from, user: to}, dispatch);
+    return () => subscription.off();
   }, [to, from, dispatch]);
-
-  useEffect(() => {
-    if (username) {
-      loadUserName(username);
-    }
-  }, [loadUserName, username]);
 
   const scrollToBottom = () => {
     const objDiv: any = document.getElementById('msg');

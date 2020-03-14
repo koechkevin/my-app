@@ -1,3 +1,10 @@
+.chatList {
+  max-height: 400px;
+  overflow-y: scroll;
+  -webkit-scrollbar {
+    display: none;
+  }
+}
 .single {
   height: 32px;
   padding: 8px 16px;

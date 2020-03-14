@@ -56,7 +56,8 @@ const ChildrenSideBar: FC<Props> = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getChats({ currentUser: userId }, dispatch).then(() => {});
+    const ref = getChats({ currentUser: userId }, dispatch);
+    return () => ref.off();
   }, [userId, dispatch]);
 
   useEffect(() => {
@@ -119,14 +120,19 @@ const ChildrenSideBar: FC<Props> = (props) => {
       </Row>
       <Row className={styles.bordered} />
 
-      <Menu theme="dark" className={styles.menu} style={{ width: '100%', marginBottom: 32 }}>
+      <Menu theme="dark" className={styles.menu} style={{ width: '100%' }}>
         <Item style={{ margin: 0, height: 32 }}>
           <Link to={username ? `/${username}/resume` : 'resume'}>
             <Text style={{ color: '#ffffff' }}>Resume</Text>
           </Link>
         </Item>
+        <Item style={{ margin: 0, height: 32 }}>
+          <Link to={username ? `/${username}/messages` : 'messages'}>
+            <Text style={{ color: '#ffffff' }}>Direct Message</Text>
+          </Link>
+        </Item>
       </Menu>
-
+      <Row className={styles.bordered} />
       <QuickLinks quickLinks={quickLinks} />
       <Row className={styles.bordered} />
       {authenticated && <ChatList/>}

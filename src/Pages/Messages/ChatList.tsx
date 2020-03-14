@@ -65,7 +65,7 @@ const ChatList: FC<any> = (props) => {
   }));
 
 
-  return (<div>
+  return (<div className={styles.chatList}>
     {
       chatList
         .map((each: any, index: number) => <SingleChat list={each.list} user={each.user} key={each.user?.userId} />)

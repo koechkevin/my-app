@@ -1,9 +1,10 @@
 import {Col, Row} from 'antd';
-import React, {FC, useEffect} from 'react';
-import {connect} from 'react-redux';
+import React, {FC, useEffect, useState} from 'react';
+import {connect, useSelector} from 'react-redux';
 import {Dispatch} from 'redux';
 import constants from '../redux/constants';
 
+import { Redirect } from 'react-router-dom';
 import styles from './Home.module.scss';
 import ResumeList from './ResumeList';
 
@@ -13,10 +14,18 @@ interface Props {
 const Home: FC<Props> = (props) => {
   const { handleSidebar } = props;
 
+  const { auth: { username } } = useSelector(({ global }: any)=>({
+    auth: global.auth,
+  }));
+
   useEffect(() => {
     handleSidebar(false);
     return () => handleSidebar(true);
   }, [handleSidebar]);
+
+  if(username) {
+    return <Redirect to={`/${username}`} />
+  }
 
   return (
     <Row className={styles.home}>
