@@ -51,7 +51,7 @@ const ChildrenSideBar: FC<Props> = (props) => {
     auth: global.auth, list: messages.messageList,
   }));
 
-  const {  auth: { userId } } = redux;
+  const {  auth: { userId, authenticated } } = redux;
 
   const dispatch = useDispatch();
 
@@ -129,7 +129,7 @@ const ChildrenSideBar: FC<Props> = (props) => {
 
       <QuickLinks quickLinks={quickLinks} />
       <Row className={styles.bordered} />
-      <ChatList/>
+      {authenticated && <ChatList/>}
     </Row>
   );
 };

@@ -40,7 +40,7 @@ export const getChats = async ({ currentUser }: any, dispatch: Dispatch) => {
   const ref = database.ref(`chats/${currentUser}`);
   ref.on('value', (snapshot) => {
     const value = snapshot.val() || {};
-    const list = Object.values(value);
+    const list = Object.values(value).filter((each: any) => !!each.user);
     dispatch({ type: constants.LOAD_CHATS, payload: list})
   })
 }

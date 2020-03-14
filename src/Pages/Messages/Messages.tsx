@@ -122,7 +122,9 @@ const Message: FC<any> = (props) => {
     e.persist();
     const value = e.target.value?.trim() ? e.target.value : '';
     setValue(value);
-    database.ref(`/chats/${to}/${from}/typing`).set(value)
+    if (to && from) {
+      database.ref(`/chats/${to}/${from}/typing`).set(value)
+    }
   }
 
   const disabled = !value.trim();
