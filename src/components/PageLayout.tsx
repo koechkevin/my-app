@@ -51,15 +51,17 @@ const PageLayout: FC<Props> = (props) => {
   },[authKey, authenticate]);
 
   useEffect(() => {
-    const onUnload = (e: any) => {
-      e.preventDefault();
-      if (authenticated && userId) {
-        database.ref(`/users/${userId}/status`).set(moment().toString());
-      }
-      e.returnValue = '';
-    };
-    window.addEventListener('beforeunload', onUnload);
-    return () => window.removeEventListener('beforeunload', onUnload)
+    if(process.env.NODE_ENV !== 'development') {
+      const onUnload = (e: any) => {
+        e.preventDefault();
+        if (authenticated && userId) {
+          database.ref(`/users/${userId}/status`).set(moment().toString());
+        }
+        e.returnValue = '';
+      };
+      window.addEventListener('beforeunload', onUnload);
+      return () => window.removeEventListener('beforeunload', onUnload)
+    }
   }, [authenticated, userId]);
 
   useEffect(() => {

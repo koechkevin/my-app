@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, Typography } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import moment from 'moment';
 import React, {FC, ReactNode, useEffect, useState} from 'react';
@@ -7,11 +7,13 @@ import {Dispatch} from 'redux';
 import { v4 as uid } from 'uuid'
 import {database} from '../../firebase';
 import constants from '../../redux/constants';
-import {createMessage, getMessages} from '../../redux/effects/messaging';
+import {createMessage, getMessages, sendMail} from '../../redux/effects/messaging';
 
 import { PageTitle } from '../../components';
 import Exception404 from '../404';
 import styles from './Messages.module.scss';
+
+const { Text } = Typography;
 
 const SingleMessage: FC<any> = (props) => {
   const { message, myId } = props;
@@ -39,8 +41,10 @@ const Message: FC<any> = (props) => {
   const { match: { params: { username } }, user,
     loadUserName, handlePageTitle, to, auth, list, recipient, title} = props;
 
+  const [sendAsEmail, setSendAsEmail] = useState(false);
+
   const from = auth && auth.userId;
-  const { firstName, lastName } = user;
+  const { firstName, lastName, email } = user;
   const name = `${firstName} ${lastName}`;
 
   useEffect(() => {
@@ -100,8 +104,11 @@ const Message: FC<any> = (props) => {
       const id = uid();
       createMessage({from,to, message: value, id, me: auth, recipient }, dispatch)
         .then();
+      if (sendAsEmail) {
+        sendMail({sender: name, recipient: email, message: value });
+      }
       setValue('');
-      database.ref(`/chats/${to}/${from}/typing`).set('')
+      database.ref(`/chats/${to}/${from}/typing`).set('');
     }
   };
 
@@ -179,7 +186,13 @@ const Message: FC<any> = (props) => {
     >Send</Button>
     </span>
     </div>
-      <div className={styles.after} />
+      <div className={styles.after}>
+        <input
+          checked={sendAsEmail}
+          onClick={() => setSendAsEmail((value) => !value)}
+          type="checkbox" />
+          <Text style={{ fontSize: 12, marginLeft: 8, fontWeight: 600 }}>Also send as Email</Text>
+      </div>
   </div>
       </>)
 }

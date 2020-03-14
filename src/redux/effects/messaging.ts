@@ -1,6 +1,7 @@
 import moment from 'moment';
 import {Dispatch} from 'redux';
 import {database} from '../../firebase';
+import {api} from '../../services/axios';
 import constants from '../constants';
 
 export const messageListener = (userId: string) => {
@@ -46,3 +47,7 @@ export const getChats = ({ currentUser }: any, dispatch: Dispatch) => {
   });
   return ref;
 };
+
+export const sendMail = async (data: any) => {
+  return api.post('/messages/email', data);
+}

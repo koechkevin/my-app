@@ -18,14 +18,15 @@
 }
 .span {
   position: sticky;
-  bottom: 16px;
+  bottom: 22px;
 }
 
 .after {
   position: sticky;
   bottom: 0;
   background: #f1f2f5;
-  height: 16px;
+  height: 22px;
+  padding-left: 8px;
 }
 
 .typing {
