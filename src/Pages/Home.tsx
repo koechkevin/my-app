@@ -1,5 +1,5 @@
 import {Col, Row} from 'antd';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect } from 'react';
 import {connect, useSelector} from 'react-redux';
 import {Dispatch} from 'redux';
 import constants from '../redux/constants';
