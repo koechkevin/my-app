@@ -66,7 +66,7 @@ const mapStateToProps = ({ global, users}: any) => {
   return {
     users: users.users,
   };
-}
+};
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   fetchUsersAction: () => fetchUsers(dispatch),

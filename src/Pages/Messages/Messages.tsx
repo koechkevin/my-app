@@ -38,20 +38,13 @@ const SingleMessage: FC<any> = (props) => {
 }
 const Message: FC<any> = (props) => {
   const [value, setValue] = useState('');
-  const { match: { params: { username } }, user,
-    loadUserName, handlePageTitle, to, auth, list, recipient, title} = props;
+  const { user,handlePageTitle, to, auth, list, recipient, title} = props;
 
   const [sendAsEmail, setSendAsEmail] = useState(false);
 
   const from = auth && auth.userId;
   const { firstName, lastName, email } = user;
   const name = `${firstName} ${lastName}`;
-
-  useEffect(() => {
-    if (username) {
-      loadUserName(username);
-    }
-  }, [loadUserName, username]);
 
   useEffect(() => {
     const pageTitle = <PageTitle name={name} title={title} page="Chats" />;
@@ -197,6 +190,16 @@ const Message: FC<any> = (props) => {
       </>)
 }
 
+const ConnectedMessage: FC<any> = (props) => {
+  const { recipient: { userId }, loadUserName, match: { params: { username } }  } = props;
+  useEffect(() => {
+    if (username) {
+      loadUserName(username);
+    }
+  }, [loadUserName, username]);
+  return <>{userId && <Message {...props}/>}</>;
+}
+
 const mapStateToProps = ({ user: { email, username, firstName, lastName, id }, user, global, messages, resume }: any) =>
   ({to: id, recipient: { email, username, firstName, lastName, userId: id}, user,
   auth: global.auth, list: messages.messageList, title: resume.title});
@@ -207,4 +210,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   loadUserName: (username: string) => dispatch({ type: constants.LOAD_USER_NAME, payload: username}),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Message);
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectedMessage);

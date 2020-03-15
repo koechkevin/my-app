@@ -1,9 +1,37 @@
 .chatList {
   max-height: 400px;
   overflow-y: scroll;
-  -webkit-scrollbar {
-    display: none;
+  .span {
+    box-sizing: border-box;
+    position: relative;
+    padding: 0 16px 0 16px;
+    width: 200px;
+    .icon {
+      position: absolute;
+      pointer-events: none;
+      right: 16px;
+      svg {
+        font-size: 12px;
+      }
+    }
   }
+ .input {
+   background: #002140;
+   width: 100%;
+   color: white;
+   outline: none;
+   border: none;
+   border-radius: 8px;
+   padding: 8px 16px;
+   height: 32px;
+   font-size: 12px;
+   margin-bottom: 8px;
+   &:focus {
+     & + .icon {
+       display: none;
+     }
+   }
+ }
 }
 .single {
   height: 32px;

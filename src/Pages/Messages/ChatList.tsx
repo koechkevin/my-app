@@ -1,9 +1,12 @@
+import {faSearch} from '@fortawesome/pro-light-svg-icons';
 import { Typography } from 'antd';
-import React, {FC, useEffect, useRef, useState} from 'react';
-import {useSelector} from 'react-redux';
+import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
+import {Icon} from '../../components';
 import {database} from '../../firebase';
 import {notify} from '../../redux/effects/notifications';
+import {fetchUsers} from '../../redux/effects/resume';
 import styles from './Chatlist.module.scss';
 
 
@@ -60,16 +63,45 @@ const SingleChat: FC<any> = (props) => {
       </>);
 }
 const ChatList: FC<any> = (props) => {
-  const {chatList} = useSelector(({ messages: { chatList }}: any) => ({
-    chatList,
+  const {chatList, users} = useSelector(({ messages: { chatList }, users: { users}}: any) => ({
+    chatList, users,
   }));
 
+  const dispatch = useDispatch();
+  const fetchUsersAction = useCallback(() => fetchUsers(dispatch), [dispatch]);
+  useEffect(() => {
+    fetchUsersAction().then();
+  }, [fetchUsersAction]);
+const [search, setSearch] = useState('');
+
+  const usersNotInChat = users.filter((each: any) => {
+    const name = `${each.firstName} ${each.lastName}`;
+    const searched = name.toLowerCase().includes(search.toLowerCase());
+    return searched && !chatList.find((one: any) => one.user && one.user.userId === each.id);
+  });
+
+const list = chatList.filter((each: any) => {
+  const name = `${each.user?.firstName} ${each.user?.lastName}`;
+  return name.toLowerCase().includes(search.toLowerCase());
+});
 
   return (<div className={styles.chatList}>
+    <div className={styles.span}>
+      <input
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Search"
+        className={styles.input}
+        type="text"/>
+      <Icon color="lightgrey" className={styles.icon} icon={faSearch}/>
+    </div>
     {
-      chatList
+      list
         .map((each: any, index: number) => <SingleChat list={each.list} user={each.user} key={each.user?.userId} />)
-    }
+    } {
+    usersNotInChat
+      .map((each: any, index: number) =>
+        <SingleChat list={{}} user={{...each, userId: each.id}} key={each.id} />)
+  }
   </div>)
 }
 

@@ -1,5 +1,5 @@
 import {faPencilAlt} from '@fortawesome/pro-light-svg-icons';
-import {Button, Input, Row, Typography, Col} from 'antd';
+import {Button, Col, Input, notification, Row, Typography} from 'antd';
 import React, {FC, ReactNode, useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router';
@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import {Dispatch} from 'redux';
 import {Icon, PageTitle} from '../components';
 import constants from '../redux/constants';
+import {sendMail} from '../redux/effects/messaging';
 import {updateResume} from '../redux/effects/resume';
 import Contacts from './Resume/Contacts';
 
@@ -18,9 +19,9 @@ const { TextArea } = Input;
 const UserLandingPage: FC<any> = (props) => {
 
   const {
-    statusCode, showSocialIcons, handlePageTitle, loadUserName, match: { params: { username }},
+    statusCode, showSocialIcons, handlePageTitle, loadUserName, match: { params: { username = 'koechkevin' }},
     resume: { title, overview, contacts }, name, isEditable, setIsEditable, auth, editResume,
-    apiUpdate, resume, showSideBar,
+    apiUpdate, resume, showSideBar, user,
   } = props;
 
   const [hover, setHover] = useState({
@@ -30,6 +31,10 @@ const UserLandingPage: FC<any> = (props) => {
   const [edit, setEdit] = useState({
     overview: false, title: false,
   });
+
+  const [email, setEmail] = useState({
+    name: '', text: '',
+  })
 
   const { username: currentUser, authenticated } = auth;
 
@@ -71,6 +76,21 @@ const UserLandingPage: FC<any> = (props) => {
   }, [loadUserName, username]);
   if (statusCode === 404) {
     return <Redirect to="/exception/404" />
+  }
+
+  const onEmailChange = (e: any) => {
+    e.persist();
+    setEmail((s) => ({...s, [e.target.name]: e.target.value}))
+  }
+
+  const onSendMail = () => {
+    sendMail({sender: email.name, recipient: user.email, message: email.text })
+      .then(() => {
+        setEmail({ text: '', name: ''});
+        notification.success({
+          message: 'Message delivered',
+        })
+      })
   }
 
   return (
@@ -133,7 +153,7 @@ const UserLandingPage: FC<any> = (props) => {
       <Row gutter={16} style={{
         width: '100%',
         marginTop: 16,
-        marginBottom: 32,
+        marginBottom: 16,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
@@ -187,6 +207,33 @@ const UserLandingPage: FC<any> = (props) => {
           </Button>}
         </Col>
       </Row>
+      {!auth.authenticated && user.email && <Row style={{ width: '100%', marginBottom: 32}}>
+        <Text strong>{`Need help from me and don't want to login? leave a message below`}</Text>
+        <Input
+          onChange={onEmailChange}
+          name="name"
+          value={email.name}
+          className={styles.input} placeholder="Who are you?" />
+        <Input.TextArea
+          onChange={onEmailChange}
+          name="text"
+          value={email.text}
+          placeholder="Type a message" style={{ marginTop: 8 }} className={styles.input}/>
+        <div style={{ width: '100%'}}>
+        <Button
+          onClick={onSendMail}
+          disabled={!email.name || !email.text}
+          style={{
+            background:'#0050c8',
+            color: 'white',
+            borderColor: '#0050c8',
+            float: 'right',
+            borderRadius: 8,
+            marginTop: 8,
+            opacity: !email.name || !email.text ? 0.6 : '',
+        }} type="primary">Send</Button>
+        </div>
+      </Row>}
   </Row>
   )
 };
@@ -198,6 +245,7 @@ const mapStateToProps = ({global, resume, user }: any) => ({
   username: global.username,
   isEditable: global.isEditable,
   auth: global.auth,
+  user,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

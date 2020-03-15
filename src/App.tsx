@@ -2,7 +2,7 @@ import React, {FC, useEffect} from 'react';
 import { Provider }  from 'react-redux';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {PageLayout} from './components';
-import {Home, Resume} from './Pages';
+import {Resume} from './Pages';
 import Exception404 from './Pages/404';
 import FillNewPassword from './Pages/Authentication/FillNewPassword';
 import Register from './Pages/Authentication/Register';
@@ -24,7 +24,7 @@ const App: FC<any> = () => {
       <BrowserRouter>
       <PageLayout>
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={UserLandingPage} />
             <Route exact path="/:username" component={UserLandingPage} />
             <Route exact path="/:username/resume" component={Resume} />
             <Route exact path="/auth/register" component={Register} />

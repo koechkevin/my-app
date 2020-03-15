@@ -3,6 +3,20 @@
     background: #001429;
     padding: 0;
   }
+  *::-webkit-scrollbar, &::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
+*{
+  scrollbar-width: none;
+}
+}
+
+.noScrollBar {
+  *::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
 }
 
 .row {
@@ -75,7 +89,7 @@
 .projects {
   width: 100%;
   .quickLink {
-    max-height: 160px;
+    max-height: 172px;
     overflow: scroll;
   }
 }
@@ -83,7 +97,7 @@
 .bordered {
   padding: 1px;
   width: 100%;
-  margin: 16px;
+  margin: 8px 16px;
 background-color: #106cc8;
 }
 

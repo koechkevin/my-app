@@ -132,7 +132,7 @@ const ChildrenSideBar: FC<Props> = (props) => {
           </Link>
         </Item>
       </Menu>
-      <Row className={styles.bordered} />
+      {quickLinks.length && <Row className={styles.bordered} />}
       <QuickLinks quickLinks={quickLinks} />
       <Row className={styles.bordered} />
       {authenticated && <ChatList/>}
@@ -146,7 +146,7 @@ const SideBarMenu: FC<Props> = (props) => {
   return (
     <>
       {!isMobile && (
-        <Sider style={{ overflowY: 'scroll', height: '100vh', padding: 0 }}>
+        <Sider className={styles.noScrollBar} style={{ overflowY: 'scroll', height: '100vh', padding: 0 }}>
           <ChildrenSideBar {...props} />
         </Sider>
       )}
