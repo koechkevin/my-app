@@ -6,6 +6,10 @@
   box-sizing: border-box;
   overflow: scroll;
 
+  @media screen and (max-width: 575px) {
+    max-height: calc(100vh - 120px);
+  }
+
   .list {
     width: 100%;
     min-height: calc(100vh - 136px);
@@ -19,6 +23,7 @@
 .span {
   position: sticky;
   bottom: 22px;
+  background: #f1f2f5;
 }
 
 .after {
@@ -58,22 +63,41 @@
 .textM {
   font-size: 13px;
   line-height: 18px;
+  align-self: center;
 }
 
 .chatRow {
   margin-top: 4px;
   margin-bottom: 4px;
   display: flex;
+  .suffix {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-left: 4px;
+  }
+
+  svg {
+    cursor: pointer;
+  }
 
   &.left {
     justify-content: flex-start;
-    .chat {
-      background-color: #dce1e8;
-    }
+  }
+
+  .isDeleted {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    border-radius: 8px;
+    padding-right: 8px;
+    font-size: 12px;
   }
 
   &.right {
     justify-content: flex-end;
+    .chat, .isDeleted {
+      background-color: #dce1e8;
+    }
   }
   .chat {
     padding: 8px;
@@ -82,6 +106,8 @@
     border-radius: 8px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     min-width: 132px;
+    display: flex;
+    justify-content: space-between;
   }
   .time {
     display: flex;
@@ -90,5 +116,115 @@
     font-size: 11px;
     line-height: 16px;
     //margin-top: -16px;
+  }
+}
+.date {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.23);
+  padding: 0 4px;
+  border-radius: 4px;
+  font-size: 12px;
+  background: #dce1e8;
+}
+.menu {
+  &:global(.ant-dropdown-menu) {
+    border-radius: 8px;
+    :global(.ant-dropdown-menu-item) {
+      padding: 4px 8px;
+      &.delete {
+      color: #ff7875;
+    }
+    }
+  }
+}
+
+.threadDrawer {
+  :global(.ant-drawer-body) {
+    position: relative;
+    padding: 0 16px;
+    background: #f1f2f5;
+  }
+  .btn {
+    &:global(.ant-btn-primary) {
+      color: white;
+      background: #0050c8;
+      padding: 0 8px;
+      height: 24px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+  }
+  .threadList {
+    overflow: scroll;
+    padding: 8px;
+  }
+  .span {
+    bottom: 0;
+    padding-bottom: 16px;
+  }
+}
+
+.edit {
+  :global(.ant-btn) {
+    border-radius: 8px;
+    margin-top: 8px;
+    height: 24px;
+    margin-right: 8px;
+    padding: 0 8px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid lightgrey;
+    color: rgba(0,0,0,0.65);
+    &:hover, &:focus {
+      border: 1px solid lightgrey;
+      color: rgba(0,0,0,0.65);
+    }
+    &:global(.ant-btn-primary) {
+      background: #0050c8;
+      color: white;
+    }
+  }
+}
+
+.edited {
+  font-size: 10px;
+  color: rgba($color: #1d1d1d, $alpha:0.5);
+}
+.head {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  background: #f1f2f5;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  position: sticky;
+  top: 0;
+  justify-content: space-between;
+}
+
+.message {
+  position: sticky;
+  top: 64px;
+  background: #f1f2f5;
+  border: 1px solid lightgray;
+  padding: 8px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+}
+
+.modal {
+  :global(.ant-modal-content) {
+    border-radius: 8px;
+  }
+  :global(.ant-modal-header) {
+    padding: 16px;
+    border-radius: 8px 8px 0 0;
+  }
+  :global(.ant-modal-close-x){
+    height: 32px;
+    width: 32px;
+    line-height: 32px;
+  }
+  :global(.ant-modal-body){
+    padding: 16px;
   }
 }

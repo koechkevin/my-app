@@ -14,7 +14,7 @@ export const messageListener = (userId: string) => {
 export const createMessage = async ({from, to, message, id, recipient, me }: any, dispatch: Dispatch, callback?: any) =>
 {
   const createdAt = moment().format();
-  const msg = { from, to, message, createdAt, id, read: false};
+  const msg = { from, to, message, createdAt, id, read: false, encoded: true};
   dispatch({ type: constants.ADD_MESSAGE, payload: msg});
   await database.ref(`/chats/${from}/${to}/user`).set(recipient);
   await database.ref(`/chats/${to}/${from}/user`).set(me);
@@ -48,6 +48,66 @@ export const getChats = ({ currentUser }: any, dispatch: Dispatch) => {
   return ref;
 };
 
+export const getOppositeChats = ({ otherUser, me }: any, dispatch: Dispatch) => {
+  const ref = database.ref(`/chats/${otherUser}/${me}/list`);
+  ref.on('value', (snapshot) => {
+    const value = snapshot.val() || {};
+    const chats = value && Object.keys(value).map((each: string) => {
+      return {...value[each], firebaseId: each}
+    });
+    dispatch({ type: constants.LOAD_OPPOSITE_CHATS, payload: chats || []})
+  });
+  return ref;
+};
+
+export const threadMessage = async ({ from, to, oppositeId, myFirebaseId, message }: any) => {
+  const createdAt = moment().format();
+  const msg = { from, to, message, createdAt, read: false, encoded: true};
+  database.ref(`/chats/${from}/${to}/list/${myFirebaseId}/threads`).push({...msg, read: true});
+  database.ref(`/chats/${to}/${from}/list/${oppositeId}/threads`).push(msg);
+  const snap = await database.ref(`/chats/${to}/${from}/notifications`).once('value');
+  const notificationCount = snap.val();
+  await database.ref(`/chats/${from}/${to}/notifications`).set(notificationCount ? notificationCount + 1 : 1);
+};
+
+export const editMessage = async ({from, to, oppositeId, myFirebaseId, message}: any) => {
+  const updatedAt = moment().format();
+  database.ref(`/chats/${from}/${to}/list/${myFirebaseId}`).update({ message, updatedAt, encoded: true});
+  database.ref(`/chats/${to}/${from}/list/${oppositeId}`).update({ message, updatedAt, encoded: true });
+};
+
+export const deleteMessage = async ({from, to, oppositeId, myFirebaseId}: any) => {
+  const deletedAt = moment().format();
+  database.ref(`/chats/${from}/${to}/list/${myFirebaseId}`).update({deletedAt, isDeleted: true});
+  database.ref(`/chats/${to}/${from}/list/${oppositeId}`).update({deletedAt, isDeleted: true });
+};
+
+export const editThread = async ({ from, to, oppositeId, myFirebaseId, message, myThreadId, oppositeThreadId }: any) =>
+{
+  const updatedAt = moment().format();
+  database.ref(`/chats/${from}/${to}/list/${myFirebaseId}/threads/${myThreadId}`)
+    .update({ message, updatedAt, encoded: true});
+  database.ref(`/chats/${to}/${from}/list/${oppositeId}/threads/${oppositeThreadId}`)
+    .update({ message, updatedAt, encoded: true });
+}
+
+
+export const deleteThread = async ({
+                                     from,
+                                     to,
+                                     oppositeId,
+                                     myFirebaseId,
+                                     myThreadId,
+                                     oppositeThreadId,
+}: any) =>
+{
+  const deletedAt = moment().format();
+  database.ref(`/chats/${from}/${to}/list/${myFirebaseId}/threads/${myThreadId}`)
+    .update({ isDeleted: true, deletedAt});
+  database.ref(`/chats/${to}/${from}/list/${oppositeId}/threads/${oppositeThreadId}`)
+    .update({ isDeleted: true, deletedAt });
+}
+
 export const sendMail = async (data: any) => {
   return api.post('/messages/email', data);
-}
+};

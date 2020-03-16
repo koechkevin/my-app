@@ -36,7 +36,7 @@ const App: FC<any> = () => {
               path="/exception/403"
               render={() =><Exception404 exception={403} text="You are not authorized to access this page. Please login to continue" />}
             />
-            <Route exact path="" component={Exception404} />
+            <Route exact path="" render={() =><Exception404 exception={404} text="Sorry, the page you visited does not exist." />} />
           </Switch>
       </PageLayout>
       </BrowserRouter>
