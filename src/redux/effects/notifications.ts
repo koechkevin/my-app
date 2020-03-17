@@ -1,5 +1,5 @@
 import base64 from 'base-64';
-import utf8 from 'utf8';
+// import utf8 from 'utf8';
 
 export const notify = (message: string, onClick?: () => void) => {
   const sound = `${process.env.PUBLIC_URL}/notify.mp3`;
@@ -13,13 +13,23 @@ export const notify = (message: string, onClick?: () => void) => {
       e.preventDefault();
       onClick && onClick();
     };
-    return audio.play();
+    return audio.play().catch((e) => {
+      if (e.name === 'NotAllowedError' ||
+        e.name === 'NotSupportedError') {
+        return;
+      }
+    });
   }
 
   if (Notification.permission !== 'denied') {
     Notification.requestPermission().then( (permission) => {
       if (permission === 'granted') {
-        audio.play();
+        audio.play().catch((e) => {
+          if (e.name === 'NotAllowedError' ||
+            e.name === 'NotSupportedError') {
+            return;
+          }
+        });
         onClick && onClick();
         return new Notification(message);
       }
@@ -28,10 +38,11 @@ export const notify = (message: string, onClick?: () => void) => {
 };
 
 export const encode = (text: string): string => {
-  const bytes = utf8.encode(text);
-  const firstEncoded = base64.encode(bytes);
-  const secondBytes = utf8.encode(firstEncoded);
-  return base64.encode(secondBytes);
+  return text;
+  // const bytes = utf8.encode(text);
+  // const firstEncoded = base64.encode(bytes);
+  // const secondBytes = utf8.encode(firstEncoded);
+  // return base64.encode(secondBytes);
 };
 
 export const decode = (encoded: string): string => {

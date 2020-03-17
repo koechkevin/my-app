@@ -1,5 +1,5 @@
-import {faBan, faChevronDown, faTimes} from '@fortawesome/pro-light-svg-icons';
-import {Button, Drawer, Dropdown, Menu, Modal, Typography, Row} from 'antd';
+import {faBan, faChevronDown, faSmile, faTimes} from '@fortawesome/pro-light-svg-icons';
+import {Button, Drawer, Dropdown, Menu, Modal, Row, Typography} from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import moment from 'moment';
 import React, {FC, ReactNode, useEffect, useState} from 'react';
@@ -23,6 +23,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {Icon, PageTitle} from '../../components';
 import {decode, encode} from '../../redux/effects/notifications';
 import Exception404 from '../404';
+import Emoji from '../Emoji';
 import styles from './Messages.module.scss';
 
 const { Text } = Typography;
@@ -123,7 +124,8 @@ const MessageAndThread: FC<any> = (props) => {
         className={styles.text}
         onChange={onChange}
         autoSize
-        value={value} />
+        value={value}
+        />
         <Button onClick={onCancel}>Cancel</Button>
         <Button onClick={onSave} type="primary">Save Changes</Button>
     </div>}
@@ -431,6 +433,15 @@ const Message: FC<any> = (props) => {
     <div style={{ height: 8 }} />
     <div className={styles.span}>
       {typing && <div className={styles.typing}>{typing}</div>}
+      <div style={{ display: 'flex'}}>
+        <Dropdown
+          trigger={['click']}
+          overlay={<Emoji
+            onClick={(emoji) => setValue((val) => `${val}${emoji.value}`)}/>}>
+        <span>
+          <Icon hover icon={faSmile}/>
+        </span>
+        </Dropdown>
     <TextArea
       style={{ borderRadius: 8, resize: 'none'}}
       className={styles.text}
@@ -440,6 +451,7 @@ const Message: FC<any> = (props) => {
       onBlur={onBlur}
       onChange={onChange}
       autoSize/>
+      </div>
       <span className={styles.button}>
     <Button
       onClick={onClick}

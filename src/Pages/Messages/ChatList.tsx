@@ -18,7 +18,7 @@ const usePrevious = (value: any) => {
     ref.current = value;
   });
   return ref.current;
-}
+};
 
 const SingleChat: FC<any> = (props) => {
   const { user, list } = props;
@@ -36,7 +36,7 @@ const SingleChat: FC<any> = (props) => {
     if (previous) {
       // @ts-ignore
       if (messages.length > previous.length) {
-        notify(`New Message from ${user.firstName}`, onClick);
+          notify(`New Message from ${user.firstName}`, onClick)
       }
     }
   }, [messages.length, previous, user]);
@@ -49,11 +49,25 @@ const SingleChat: FC<any> = (props) => {
     return () => database.ref(`/users/${user.userId}/status`).off();
   }, [user]);
 
+  const [typing, setTyping] = useState('');
+
+  const me = auth && auth.userId;
+
+  useEffect(() => {
+    const ref = database.ref(`/chats/${me}/${user.userId}/typing`);
+    ref.on('value', (snapshot) => {
+      const value = snapshot.val();
+      setTyping(value);
+    });
+    return () => ref.off();
+  }, [me, user.userId]);
+
   return (
     <>
       <Link to={`/${user.username}/messages`}>
         <div className={classNames}>
-          <div className={online ? styles.online : styles.offline}>{''}</div>
+          {typing && <div className={styles.typing}>...</div>}
+          {!typing && <div className={online ? styles.online : styles.offline}>{''}</div>}
           <div className={styles.text} style={{ height: 18 }}>
             <Text ellipsis>{`${user.firstName} ${user.lastName}`}</Text>
           </div>

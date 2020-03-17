@@ -14,7 +14,7 @@ export const messageListener = (userId: string) => {
 export const createMessage = async ({from, to, message, id, recipient, me }: any, dispatch: Dispatch, callback?: any) =>
 {
   const createdAt = moment().format();
-  const msg = { from, to, message, createdAt, id, read: false, encoded: true};
+  const msg = { from, to, message, createdAt, id, read: false, encoded: false};
   dispatch({ type: constants.ADD_MESSAGE, payload: msg});
   await database.ref(`/chats/${from}/${to}/user`).set(recipient);
   await database.ref(`/chats/${to}/${from}/user`).set(me);
@@ -62,7 +62,7 @@ export const getOppositeChats = ({ otherUser, me }: any, dispatch: Dispatch) => 
 
 export const threadMessage = async ({ from, to, oppositeId, myFirebaseId, message }: any) => {
   const createdAt = moment().format();
-  const msg = { from, to, message, createdAt, read: false, encoded: true};
+  const msg = { from, to, message, createdAt, read: false, encoded: false};
   database.ref(`/chats/${from}/${to}/list/${myFirebaseId}/threads`).push({...msg, read: true});
   database.ref(`/chats/${to}/${from}/list/${oppositeId}/threads`).push(msg);
   const snap = await database.ref(`/chats/${to}/${from}/notifications`).once('value');
@@ -72,8 +72,8 @@ export const threadMessage = async ({ from, to, oppositeId, myFirebaseId, messag
 
 export const editMessage = async ({from, to, oppositeId, myFirebaseId, message}: any) => {
   const updatedAt = moment().format();
-  database.ref(`/chats/${from}/${to}/list/${myFirebaseId}`).update({ message, updatedAt, encoded: true});
-  database.ref(`/chats/${to}/${from}/list/${oppositeId}`).update({ message, updatedAt, encoded: true });
+  database.ref(`/chats/${from}/${to}/list/${myFirebaseId}`).update({ message, updatedAt, encoded: false});
+  database.ref(`/chats/${to}/${from}/list/${oppositeId}`).update({ message, updatedAt, encoded: false });
 };
 
 export const deleteMessage = async ({from, to, oppositeId, myFirebaseId}: any) => {
@@ -86,9 +86,9 @@ export const editThread = async ({ from, to, oppositeId, myFirebaseId, message, 
 {
   const updatedAt = moment().format();
   database.ref(`/chats/${from}/${to}/list/${myFirebaseId}/threads/${myThreadId}`)
-    .update({ message, updatedAt, encoded: true});
+    .update({ message, updatedAt, encoded: false});
   database.ref(`/chats/${to}/${from}/list/${oppositeId}/threads/${oppositeThreadId}`)
-    .update({ message, updatedAt, encoded: true });
+    .update({ message, updatedAt, encoded: false });
 }
 
 

@@ -58,6 +58,20 @@
     background: limegreen;
     border-radius: 50%;
   }
+  .typing {
+    width: 8px;
+    height: 32px;
+    margin-right: 12px;
+    font-size: 16px;
+    margin-left: -4px;
+    font-weight: bold;
+    line-height: 20px;
+    animation-name: type;
+    animation-duration: 1.2s;
+    overflow-x: hidden;
+    white-space: nowrap;
+    animation-iteration-count: infinite;
+  }
   .offline {
     width: 8px;
     height: 8px;
@@ -78,5 +92,35 @@
     border-radius: 50%;
     white-space: nowrap;
     text-align: center;
+  }
+}
+
+@keyframes type {
+  0% {
+    color: rgba(255, 255, 255, 0.1); // #dbdad7;
+  }
+  12.5% {
+    color: rgba(255, 255, 255, 0.2); // #b5b4b0;
+  }
+  25% {
+    color: rgba(255, 255, 255, 0.3); // #7a7a78;
+  }
+  37.5% {
+    color: rgba(255, 255, 255, 0.4); // #9c9b97;
+  }
+  50% {
+    color: rgba(255, 255, 255, 0.5); // #999b9e;
+  }
+  62.5% {
+    color: rgba(255, 255, 255, 0.4); // #dbdad7;
+  }
+  75% {
+    color: rgba(255, 255, 255, 0.3); // #b5b4b0;
+  }
+  87.5% {
+    color: rgba(255, 255, 255, 0.2); // #7a7a78;
+  }
+  100% {
+    color: rgba(255, 255, 255, 0.1); // #999b9e;
   }
 }
