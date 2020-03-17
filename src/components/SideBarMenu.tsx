@@ -32,13 +32,14 @@ interface Props {
   fetchResume: (userId: string) => void;
   editUser: (data: any) => void;
   fetchMessages: (data: any) => void;
+  setIsEditable: (value: boolean) => void;
   uploadAction: (path: string, errorMessage: (message: string) => void) => void;
 }
 
 const ChildrenSideBar: FC<Props> = (props) => {
   const {
     user: { quickLinks, firstName, lastName, avatarColor, avatarUrl },
-    username, isEditable, editUser, uploadAction, uploadProgress,
+    username, isEditable, editUser, uploadAction, uploadProgress, setIsEditable,
   } = props;
 
   const [name, setName] = useState('');
@@ -51,7 +52,12 @@ const ChildrenSideBar: FC<Props> = (props) => {
     auth: global.auth, list: messages.messageList,
   }));
 
-  const {  auth: { userId, authenticated } } = redux;
+  const {  auth: { userId, authenticated, username: currentUser } } = redux;
+
+  useEffect(() => {
+    setIsEditable(authenticated && (currentUser === username));
+    return () => setIsEditable(false);
+  }, [setIsEditable,username, currentUser, authenticated]);
 
   const dispatch = useDispatch();
 
@@ -181,6 +187,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   fetchResume: (userId: string) => fetchResume(userId, dispatch),
   editUser: (data: any) => updateUser(data, dispatch),
   fetchMessages: (data: any)=> getMessages(data, dispatch),
+  setIsEditable: (isEditable: boolean) => dispatch({ type: constants.HANDLE_IS_EDITABLE, payload: isEditable}),
   uploadAction: (file: any, callback: (message: string) => void) => uploadAvatar(file, callback, dispatch),
 });
 

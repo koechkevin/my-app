@@ -20,7 +20,7 @@ const UserLandingPage: FC<any> = (props) => {
 
   const {
     statusCode, showSocialIcons, handlePageTitle, loadUserName, match: { params: { username = 'koechkevin' }},
-    resume: { title, overview, contacts }, name, isEditable, setIsEditable, auth, editResume,
+    resume: { title, overview, contacts }, name, isEditable, auth, editResume,
     apiUpdate, resume, showSideBar, user,
   } = props;
 
@@ -48,11 +48,6 @@ const UserLandingPage: FC<any> = (props) => {
     apiUpdate({resume: { [e.target.name]: resume[e.target.name]}});
     setEdit((s) => ({...s, [e.target.name]: false}))
   };
-
-  useEffect(() => {
-    setIsEditable(currentUser === username);
-    return () => setIsEditable(false);
-  }, [setIsEditable,username, currentUser]);
 
   useEffect(() => {
     showSideBar()
