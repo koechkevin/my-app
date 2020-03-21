@@ -153,7 +153,7 @@ const Threads: FC<any> = (props) => {
       .then();
     if (dm) {
       const id = uid();
-      createMessage({from,to, message: encode(text), id, me: auth, recipient }, dispatch)
+      createMessage({from,to, message: text, id, me: auth, recipient }, dispatch)
         .then();
     }
     setText('');
