@@ -3,7 +3,7 @@ import 'firebase/database'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCi7IFa62NyVKkYphH6iB11ZAAy1CXpLco',
-  authDomain: 'my-resume-92231.firebaseapp.com',
+  authDomain: 'kevinkoech.com',
   databaseURL: 'https://my-resume-92231.firebaseio.com',
   projectId: 'my-resume-92231',
   storageBucket: 'my-resume-92231.appspot.com',

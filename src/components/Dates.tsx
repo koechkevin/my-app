@@ -1,4 +1,4 @@
-import {Col, Row, Button} from 'antd';
+import {Button, Col, Row} from 'antd';
 import React, {FC} from 'react';
 import styles from '../Pages/Resume.module.scss';
 
