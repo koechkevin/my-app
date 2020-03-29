@@ -36,10 +36,11 @@ const SingleChat: FC<any> = (props) => {
     if (previous) {
       // @ts-ignore
       if (messages.length > previous.length) {
-          notify(`New Message from ${user.firstName}`, onClick)
+        const newMessage = messages[messages.length - 1];
+          notify(`New Message from ${user.firstName}`, onClick, newMessage)
       }
     }
-  }, [messages.length, previous, user]);
+  }, [messages, previous, user]);
 
   useEffect(() => {
     database.ref(`/users/${user.userId}/status`).on('value', (snap) => {

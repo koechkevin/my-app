@@ -3,7 +3,7 @@ import constants from '../redux/constants';
 
 const environment = process.env.NODE_ENV;
 
-export const baseUrl = environment === 'development' ? 'http://192.168.0.28:5000'
+export const baseUrl = environment === 'development' ? 'https://my-staging-api.herokuapp.com'
   :'https://my-staging-api.herokuapp.com';
 
 
