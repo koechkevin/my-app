@@ -1,5 +1,5 @@
 import {faPencilAlt} from '@fortawesome/pro-light-svg-icons';
-import { Avatar, Drawer, Layout, Menu, Row, Skeleton, Typography } from 'antd';
+import { Avatar, Drawer, Layout, Menu, Row, Typography } from 'antd';
 import React, {FC, useEffect, useState} from 'react';
 import {connect, useDispatch, useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -12,7 +12,6 @@ import {getChats, getMessages} from '../redux/effects/messaging';
 import {fetchResume, uploadAvatar} from '../redux/effects/resume';
 import { UserState } from '../redux/reducers/user';
 import Icon from './Icon';
-import Loader from './Loader';
 import QuickLinks from './QuickLinks';
 import styles from './SideMenu.module.scss';
 import Uploader from './Uploader';
