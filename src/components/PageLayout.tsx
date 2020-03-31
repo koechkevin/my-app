@@ -53,7 +53,8 @@ const PageLayout: FC<Props> = (props) => {
   },[authKey, authenticate]);
 
   useEffect(() => {
-    if(process.env.NODE_ENV !== 'development') {
+    // @ts-ignore
+    if(process.env.NODE_ENV !== 'development' && !(window && window.process && window.process.type)) {
       const onUnload = (e: any) => {
         e.preventDefault();
         if (authenticated && userId) {
