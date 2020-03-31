@@ -23,6 +23,8 @@
 .env
 .firebase
 
+release-builds
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

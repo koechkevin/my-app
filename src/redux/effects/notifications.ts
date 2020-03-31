@@ -1,15 +1,19 @@
 import base64 from 'base-64';
 // import utf8 from 'utf8';
 
-export const notify = (message: string, onClick?: () => void) => {
+export const notify = (message: string, onClick?: () => void, newMessage?: any) => {
   const sound = `${process.env.PUBLIC_URL}/notify.mp3`;
   const audio = new Audio(sound);
   if (!('Notification' in window)) {
     alert('This browser does not support desktop notification');
   }
   if (Notification.permission === 'granted') {
-    const notification = new Notification(message);
-    notification.onclick = (e) => {
+    const notification = new Notification(message, {
+      // @ts-ignore
+      title: message, hasReply: true, silent: true,
+      sound, body: newMessage && newMessage.message, replyPlaceHolder: 'Reply',
+    });
+    notification.onclick = (e: any) => {
       e.preventDefault();
       onClick && onClick();
     };
@@ -30,8 +34,15 @@ export const notify = (message: string, onClick?: () => void) => {
             return;
           }
         });
-        onClick && onClick();
-        return new Notification(message);
+        const notification = new Notification(message, {
+          // @ts-ignore
+          title: message, hasReply: true, silent: true,
+          sound, body: newMessage && newMessage.message, replyPlaceHolder: 'Reply',
+        });
+        notification.onclick = () => {
+          onClick && onClick();
+        };
+        return notification;
       }
     });
   }
