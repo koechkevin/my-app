@@ -7,7 +7,7 @@ const createWindow = () => {
         minWidth: 800,
         minHeight: 600,
     });
-    win.loadURL('https://my-resume-92231.firebaseapp.com').then();
+    win.loadURL('https://my-resume-92231.web.app').then();
 }
 
 app.whenReady().then(createWindow);
