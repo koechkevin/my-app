@@ -19,6 +19,13 @@
   }
 }
 
+.loader {
+   li, h3 {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.45) 25%, rgba(45, 40, 3, 0.53) 37%, rgba(0, 0, 0, 0.85) 63%) !important;
+     animation: animate 1.4s ease infinite !important;
+  }
+}
+
 .row {
   &:global(.ant-row) {
     display: flex;

@@ -1,5 +1,5 @@
 import {faPencilAlt} from '@fortawesome/pro-light-svg-icons';
-import { Avatar, Drawer, Layout, Menu, Row, Typography } from 'antd';
+import { Avatar, Drawer, Layout, Menu, Row, Skeleton, Typography } from 'antd';
 import React, {FC, useEffect, useState} from 'react';
 import {connect, useDispatch, useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,7 @@ import {getChats, getMessages} from '../redux/effects/messaging';
 import {fetchResume, uploadAvatar} from '../redux/effects/resume';
 import { UserState } from '../redux/reducers/user';
 import Icon from './Icon';
+import Loader from './Loader';
 import QuickLinks from './QuickLinks';
 import styles from './SideMenu.module.scss';
 import Uploader from './Uploader';
@@ -33,6 +34,7 @@ interface Props {
   editUser: (data: any) => void;
   fetchMessages: (data: any) => void;
   setIsEditable: (value: boolean) => void;
+  loading: boolean;
   uploadAction: (path: string, errorMessage: (message: string) => void) => void;
 }
 
@@ -127,6 +129,11 @@ const ChildrenSideBar: FC<Props> = (props) => {
       <Row className={styles.bordered} />
 
       <Menu theme="dark" className={styles.menu} style={{ width: '100%' }}>
+        <Item style={{ margin: 0, height: 32 }}>
+          <Link to={username ? `/${username}` : 'resume'}>
+            <Text style={{ color: '#ffffff' }}>Overview</Text>
+          </Link>
+        </Item>
         <Item style={{ margin: 0, height: 32 }}>
           <Link to={username ? `/${username}/resume` : 'resume'}>
             <Text style={{ color: '#ffffff' }}>Resume</Text>

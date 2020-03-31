@@ -6,6 +6,7 @@ import {Redirect} from 'react-router';
 import { Link } from 'react-router-dom';
 import {Dispatch} from 'redux';
 import {Icon, PageTitle} from '../components';
+import Loader from '../components/Loader';
 import constants from '../redux/constants';
 import {sendMail} from '../redux/effects/messaging';
 import {updateResume} from '../redux/effects/resume';
@@ -34,14 +35,14 @@ const UserLandingPage: FC<any> = (props) => {
 
   const [email, setEmail] = useState({
     name: '', text: '',
-  })
+  });
 
   const { username: currentUser, authenticated } = auth;
 
   const onChange = (e: any) => {
     e.persist();
     editResume({ [e.target.name]: e.target.value})
-  }
+  };
 
   const onBlur = (e: any) => {
     e.persist();
@@ -86,7 +87,7 @@ const UserLandingPage: FC<any> = (props) => {
           message: 'Message delivered',
         })
       })
-  }
+  };
 
   return (
     <Row style={{ padding: 16 }}>

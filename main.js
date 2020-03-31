@@ -12,7 +12,7 @@ const createWindow = () => {
         minHeight: 600,
         icon,
     });
-    win.loadURL('http://localhost:3000').then();
+    win.loadURL('https://my-resume-92231.firebaseapp.com').then();
 }
 
 app.dock.setIcon(icon);

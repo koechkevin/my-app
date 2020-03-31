@@ -11,6 +11,7 @@ import { UserState } from '../redux/reducers/user';
 import styles from './Layout.module.scss';
 
 import { Header, SideBarMenu } from './index';
+import Loader from './Loader';
 
 const { Content } = Layout;
 
@@ -18,12 +19,13 @@ interface Props {
   user: UserState;
   sideBarMenuVisible: boolean;
   auth: any;
+  resume: any;
   authenticate: (payload: any) => void;
 }
 const PageLayout: FC<Props> = (props) => {
   const {
     children,
-    sideBarMenuVisible,
+    sideBarMenuVisible, resume: { fetchingResume },
     authenticate, auth: { authenticated, userId},
   } = props;
 
@@ -77,12 +79,12 @@ const PageLayout: FC<Props> = (props) => {
     <Row style={{ height: '100vh' }}>
       <Layout style={{ height: '100vh' }}>
         <Layout>
-          {sideBarMenuVisible && <SideBarMenu />}
+          {sideBarMenuVisible && <SideBarMenu loading={fetchingResume} />}
           <Content>
             <Layout>
               <Header />
               <Content className={styles.layout} style={{ height: 'calc(100vh - 64px)', overflowY: 'scroll' }}>
-                {children}
+                {fetchingResume? <Loader/> :children}
               </Content>
             </Layout>
           </Content>
@@ -92,8 +94,8 @@ const PageLayout: FC<Props> = (props) => {
   );
 };
 
-const mapStateToProps = ({ user, global }: any) => ({
-  user,
+const mapStateToProps = ({ user, global, resume }: any) => ({
+  user, resume,
   sideBarMenuVisible: global.sideBarMenuVisible,
   auth: global.auth,
 });
