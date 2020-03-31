@@ -6,7 +6,6 @@ import {Redirect} from 'react-router';
 import { Link } from 'react-router-dom';
 import {Dispatch} from 'redux';
 import {Icon, PageTitle} from '../components';
-import Loader from '../components/Loader';
 import constants from '../redux/constants';
 import {sendMail} from '../redux/effects/messaging';
 import {updateResume} from '../redux/effects/resume';
