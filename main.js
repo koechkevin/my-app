@@ -4,7 +4,7 @@ const path = require('path');
 const { app, BrowserWindow } =  electron;
 
 const icon = electron.nativeImage.createFromPath(
-    path.resolve('public/favicon.ico')
+    path.resolve('public/favicon.icns')
 )
 const createWindow = () => {
     let win = new BrowserWindow({
