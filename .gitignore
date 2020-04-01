@@ -22,7 +22,7 @@
 
 .env
 .firebase
-
+main.js
 release-builds
 
 npm-debug.log*

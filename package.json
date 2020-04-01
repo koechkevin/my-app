@@ -51,9 +51,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=public/icon.icns --prune=true --out=release-builds",
-    "windows": "electron-packager . my-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=public/favicon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Electron Tutorial App\"",
-    "linux": "electron-packager . my-app --overwrite --asar=true --platform=linux --arch=x64 --icon=public/512x512.png --prune=true --out=release-builds",
+    "electron:dev": "tsc main.ts && electron .",
+    "mac": "tsc main.ts && electron-packager . --overwrite --platform=darwin --arch=x64 --icon=public/icon.icns --prune=true --out=release-builds",
+    "windows": "tsc main.ts && electron-packager . my-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=public/favicon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Electron Tutorial App\"",
+    "linux": "tsc main.ts && electron-packager . my-app --overwrite --asar=true --platform=linux --arch=x64 --icon=public/512x512.png --prune=true --out=release-builds",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
