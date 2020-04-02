@@ -143,6 +143,7 @@ const ChildrenSideBar: FC<Props> = (props) => {
       <Row className={styles.bordered} />
       {currentUser === 'koechkevin' && (
         <>
+        <Link style={{ width: '100%'}} to="/personal/email">
           <div
             style={{
               height: 32,
@@ -153,10 +154,9 @@ const ChildrenSideBar: FC<Props> = (props) => {
               backgroundColor: emailPage ? '#0050c8' : '',
             }}
           >
-            <Link to="/personal/email">
               <Typography.Text style={{ color: '#fff', fontSize: 12 }}>Send Email</Typography.Text>
-            </Link>
           </div>
+        </Link>
           <Row className={styles.bordered} />
         </>
       )}
