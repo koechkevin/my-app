@@ -33,6 +33,7 @@ const constants = {
   LOAD_CHATS:'load chats list',
   ADD_MESSAGE: 'add a message I have written',
   LOAD_OPPOSITE_CHATS: 'load my chats on the other end',
+  EMAIL_PAGE: 'email page active',
 };
 
 export interface Action {

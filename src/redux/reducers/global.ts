@@ -31,6 +31,7 @@ interface GlobalState {
   fillNewPasswordLoading: boolean;
   fillNewPasswordErrors: any[];
   forgotPasswordErrors: any;
+  emailPage: boolean;
 }
 
 const initialState: GlobalState = {
@@ -56,6 +57,7 @@ const initialState: GlobalState = {
   fillNewPasswordLoading: false,
   fillNewPasswordErrors: [],
   forgotPasswordErrors: {},
+  emailPage: false,
 };
 
 
@@ -97,6 +99,8 @@ const globalState:(state: GlobalState, action: Action) => GlobalState = (state =
       return {...state, fillNewPasswordErrors: action.payload};
     case constants.FORGOT_PASSWORD_ERRORS:
       return {...state, forgotPasswordErrors: action.payload};
+    case constants.EMAIL_PAGE:
+      return {...state, emailPage: action.payload};
     default:
       return state;
   }

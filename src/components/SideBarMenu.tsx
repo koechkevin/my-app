@@ -1,15 +1,15 @@
-import {faPencilAlt} from '@fortawesome/pro-light-svg-icons';
+import { faPencilAlt } from '@fortawesome/pro-light-svg-icons';
 import { Avatar, Drawer, Layout, Menu, Row, Typography } from 'antd';
-import React, {FC, useEffect, useState} from 'react';
-import {connect, useDispatch, useSelector} from 'react-redux';
+import React, { FC, useEffect, useState } from 'react';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useMedia } from 'react-use';
 import { Dispatch } from 'redux';
 import ChatList from '../Pages/Messages/ChatList';
 import constants from '../redux/constants';
-import {updateUser} from '../redux/effects/authentication';
-import {getChats, getMessages} from '../redux/effects/messaging';
-import {fetchResume, uploadAvatar} from '../redux/effects/resume';
+import { updateUser } from '../redux/effects/authentication';
+import { getChats, getMessages } from '../redux/effects/messaging';
+import { fetchResume, uploadAvatar } from '../redux/effects/resume';
 import { UserState } from '../redux/reducers/user';
 import Icon from './Icon';
 import QuickLinks from './QuickLinks';
@@ -40,7 +40,12 @@ interface Props {
 const ChildrenSideBar: FC<Props> = (props) => {
   const {
     user: { quickLinks, firstName, lastName, avatarColor, avatarUrl },
-    username, isEditable, editUser, uploadAction, uploadProgress, setIsEditable,
+    username,
+    isEditable,
+    editUser,
+    uploadAction,
+    uploadProgress,
+    setIsEditable,
   } = props;
 
   const [name, setName] = useState('');
@@ -49,16 +54,21 @@ const ChildrenSideBar: FC<Props> = (props) => {
   });
 
   const redux = useSelector(({ user: { email, username, firstName, lastName, id }, global, messages }: any) => ({
-    to: id, recipient: { email, username, firstName, lastName, userId: id},
-    auth: global.auth, list: messages.messageList,
+    to: id,
+    recipient: { email, username, firstName, lastName, userId: id },
+    auth: global.auth,
+    list: messages.messageList,
+    emailPage: global.emailPage,
   }));
 
-  const {  auth: { userId, authenticated, username: currentUser } } = redux;
+  const {
+    auth: { userId, authenticated, username: currentUser }, emailPage
+  } = redux;
 
   useEffect(() => {
-    setIsEditable(authenticated && (currentUser === username));
+    setIsEditable(authenticated && currentUser === username);
     return () => setIsEditable(false);
-  }, [setIsEditable,username, currentUser, authenticated]);
+  }, [setIsEditable, username, currentUser, authenticated]);
 
   const dispatch = useDispatch();
 
@@ -76,7 +86,7 @@ const ChildrenSideBar: FC<Props> = (props) => {
   });
 
   const onBlur = () => {
-    setEdit((s) => ({...s, name: false}));
+    setEdit((s) => ({ ...s, name: false }));
     const [firstName, ...restNames] = name.split(' ');
     const lastName = restNames.join(' ');
     editUser({ firstName, lastName });
@@ -86,47 +96,70 @@ const ChildrenSideBar: FC<Props> = (props) => {
     <Row>
       <Row className={styles.row}>
         <span
-          onMouseLeave={() => setHover((s) => ({...s, avatar: false}))}
-          style={{ position: 'relative'}}
-          onMouseOver={() => setHover((s) => ({...s, avatar: true}))}>
-          {isEditable && <Uploader action={uploadAction} color={hover.avatar ? '' : 'transparent'}/>}
-        <Avatar
-          style={{
-            fontSize: uploadProgress ? 12 : 75,
-            fontWeight: 'bold',
-            background: uploadProgress ? 'white' :avatarColor,
-            position: 'relative',
-            opacity: hover.avatar && isEditable ? 0.8 : '',
-          }}
-          src={avatarUrl}
-          size={160} className={styles.avatar}>
-          {firstName.split('')[0]}
-          {uploadProgress > 0 && <span style={{ color: '#1d1d1d'}}>{uploadProgress}%</span>}
-          {lastName.split('')[0]}
-        </Avatar>
+          onMouseLeave={() => setHover((s) => ({ ...s, avatar: false }))}
+          style={{ position: 'relative' }}
+          onMouseOver={() => setHover((s) => ({ ...s, avatar: true }))}
+        >
+          {isEditable && <Uploader action={uploadAction} color={hover.avatar ? '' : 'transparent'} />}
+          <Avatar
+            style={{
+              fontSize: uploadProgress ? 12 : 75,
+              fontWeight: 'bold',
+              background: uploadProgress ? 'white' : avatarColor,
+              position: 'relative',
+              opacity: hover.avatar && isEditable ? 0.8 : '',
+            }}
+            src={avatarUrl}
+            size={160}
+            className={styles.avatar}
+          >
+            {firstName.split('')[0]}
+            {uploadProgress > 0 && <span style={{ color: '#1d1d1d' }}>{uploadProgress}%</span>}
+            {lastName.split('')[0]}
+          </Avatar>
         </span>
-        <div
-          style={{ justifyContent: isEditable ? 'space-between' : 'space-around'}}
-          className={styles.name}>
+        <div style={{ justifyContent: isEditable ? 'space-between' : 'space-around' }} className={styles.name}>
           {!edit.name && <Text ellipsis>{`${firstName} ${lastName}`}</Text>}
-          {edit.name &&
-          <input
+          {edit.name && (
+            <input
               onBlur={onBlur}
               value={name}
               onChange={(e) => setName(e.target.value)}
               className={styles.input}
               autoFocus
-              type="text"/>}
-          {isEditable && !edit.name &&
-          <Icon
-              style={{ cursor: 'pointer'}}
-              onClick={() => setEdit((s) => ({...s, name: true}))}
+              type="text"
+            />
+          )}
+          {isEditable && !edit.name && (
+            <Icon
+              style={{ cursor: 'pointer' }}
+              onClick={() => setEdit((s) => ({ ...s, name: true }))}
               color="white"
-              icon={faPencilAlt} />}
+              icon={faPencilAlt}
+            />
+          )}
         </div>
       </Row>
       <Row className={styles.bordered} />
-
+      {currentUser === 'koechkevin' && (
+        <>
+          <div
+            style={{
+              height: 32,
+              cursor: 'pointer',
+              lineHeight: '32px',
+              width: '100%',
+              padding: '0 16px',
+              backgroundColor: emailPage ? '#0050c8' : '',
+            }}
+          >
+            <Link to="/personal/email">
+              <Typography.Text style={{ color: '#fff', fontSize: 12 }}>Send Email</Typography.Text>
+            </Link>
+          </div>
+          <Row className={styles.bordered} />
+        </>
+      )}
       <Menu theme="dark" className={styles.menu} style={{ width: '100%' }}>
         <Item style={{ margin: 0, height: 32 }}>
           <Link to={username ? `/${username}` : 'resume'}>
@@ -147,7 +180,7 @@ const ChildrenSideBar: FC<Props> = (props) => {
       {quickLinks.length && <Row className={styles.bordered} />}
       <QuickLinks quickLinks={quickLinks} />
       <Row className={styles.bordered} />
-      {authenticated && <ChatList/>}
+      {authenticated && <ChatList />}
     </Row>
   );
 };
@@ -192,8 +225,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   handleDrawer: (open: boolean) => dispatch({ type: constants.HANDLE_DRAWER, payload: open }),
   fetchResume: (userId: string) => fetchResume(userId, dispatch),
   editUser: (data: any) => updateUser(data, dispatch),
-  fetchMessages: (data: any)=> getMessages(data, dispatch),
-  setIsEditable: (isEditable: boolean) => dispatch({ type: constants.HANDLE_IS_EDITABLE, payload: isEditable}),
+  fetchMessages: (data: any) => getMessages(data, dispatch),
+  setIsEditable: (isEditable: boolean) => dispatch({ type: constants.HANDLE_IS_EDITABLE, payload: isEditable }),
   uploadAction: (file: any, callback: (message: string) => void) => uploadAvatar(file, callback, dispatch),
 });
 

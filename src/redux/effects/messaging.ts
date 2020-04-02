@@ -111,3 +111,7 @@ export const deleteThread = async ({
 export const sendMail = async (data: any) => {
   return api.post('/messages/email', data);
 };
+
+export const personalMail = async (data: any) => {
+  return api.post('/mail/personal', data)
+}

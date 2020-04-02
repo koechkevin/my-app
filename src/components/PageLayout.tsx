@@ -52,21 +52,6 @@ const PageLayout: FC<Props> = (props) => {
     }
   },[authKey, authenticate]);
 
-  // useEffect(() => {
-  //   // @ts-ignore
-  //   if(process.env.NODE_ENV !== 'development' && !(window && window.process && window.process.type)) {
-  //     const onUnload = (e: any) => {
-  //       e.preventDefault();
-  //       if (authenticated && userId) {
-  //         database.ref(`/users/${userId}/status`).set(moment().toString());
-  //       }
-  //       e.returnValue = '';
-  //     };
-  //     window.addEventListener('beforeunload', onUnload);
-  //     return () => window.removeEventListener('beforeunload', onUnload)
-  //   }
-  // }, [authenticated, userId]);
-
   useEffect(() => {
     if (authenticated && userId) {
         database.ref('.info/connected').on('value', (snap) => {
