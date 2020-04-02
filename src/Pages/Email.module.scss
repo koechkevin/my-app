@@ -6,15 +6,18 @@
   color: #1d1d1d;
   max-height: 400px;
   overflow-y: scroll;
+
   :first-child {
     position: sticky;
     top: 0;
     background-color: #fff;
     z-index: 999;
   }
+
   :last-child {
     z-index: 1;
   }
+
   select {
     outline: none;
     -webkit-appearance: none;
@@ -28,18 +31,23 @@
     }
   }
 }
+
 .large {
   font-weight: bold;
 }
+
 .medium {
   font-size: 16px;
 }
+
 .code {
   background-color: #f3f3f3;
 }
+
 .normal {
   font-size: 14px;
 }
+
 .small {
   font-size: 12px;
 }
