@@ -13,6 +13,7 @@ import { messageListener } from './redux/effects/messaging';
 import store from './redux/store';
 
 import 'antd/dist/antd.css';
+import Log from './Social';
 
 const App: FC<any> = () => {
   useEffect(() => {
@@ -25,6 +26,7 @@ const App: FC<any> = () => {
         <PageLayout>
           <Switch>
             <Route exact path="/" component={UserLandingPage} />
+            <Route exact path="/social" component={Log} />
             <Route exact path="/:username" component={UserLandingPage} />
             <Route exact path="/:username/resume" component={Resume} />
             <Route exact path="/auth/register" component={Register} />
