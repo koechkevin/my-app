@@ -1,0 +1,98 @@
+.row {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+}
+.card {
+  &:global(.ant-card){
+    background-color: #4ded68;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 6px 0 rgba(36, 31, 4, 0.28);
+    cursor: pointer;
+    padding: 0;
+  }
+  :global(.ant-card-body) {
+    padding: 0;
+  }
+}
+.whatsappChat {
+  &:global(.ant-card){
+    border-radius: 4px;
+    width: 268px;
+    box-shadow: 0 1px 6px 0 rgba(36, 31, 4, 0.28);
+  }
+  .input {
+    flex: 1;
+    outline: none;
+    border: none;
+    height: 32px;
+    box-sizing: border-box;
+    border-radius: 16px;
+    padding: 0 16px;
+  }
+  .body {
+    background-color: #e5ddd5;
+    padding:  8px;
+    .today {
+      padding: 2px 4px;
+      background-color: #e1f4fa;
+      margin-bottom: 8px;
+      border-radius: 4px;
+    };
+    .text {
+      color: #000;
+      clear: both;
+      line-height: 16px;
+      font-size: 12px;
+      padding: 4px;
+      position: relative;
+      display: inline-block;
+      max-width: 70%;
+      margin: 8px 8px 0;
+      background: #fff;
+      border-radius: 0 5px 5px 5px;
+      word-wrap: break-word;
+      &:after {
+        position: absolute;
+        content: "";
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 10px 10px 0;
+        border-color: transparent #fff transparent transparent;
+        top: 0;
+        left: -10px;
+      }
+      .time {
+        color: rgba(0, 0, 0, .45);
+        float: right;
+        padding: 0 0 0 7px;
+        position: relative;
+        bottom: -4px;
+        font-size: 8px;
+        display: inline-block;
+      }
+    }
+  }
+  .send {
+    cursor: pointer;
+  }
+  .header {
+    padding: 0 16px;
+    background-color: rgb(18, 140, 126);
+    color: #fff;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 2px 2px 0 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  :global(.ant-card-body) {
+    padding: 0;
+  }
+}
