@@ -69,7 +69,7 @@ const SingleChat: FC<any> = (props) => {
         <div className={classNames}>
           {typing && <div className={styles.typing}>...</div>}
           {!typing && <div className={online ? styles.online : styles.offline}>{''}</div>}
-          <div className={styles.text} style={{ height: 18 }}>
+          <div className={styles.text}>
             <Text ellipsis>{`${user.firstName} ${user.lastName}`}</Text>
           </div>
           {messages.length > 0 && <div className={styles.unread}>{messages.length < 10 ? messages.length : '9+'}</div>}
