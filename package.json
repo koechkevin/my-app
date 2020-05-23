@@ -54,7 +54,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && node 404.js",
     "test": "react-scripts test",
     "electron:dev": "tsc main.ts && electron .",
     "mac": "tsc main.ts && electron-packager . --overwrite --platform=darwin --arch=x64 --icon=public/icon.icns --prune=true --out=release-builds",
