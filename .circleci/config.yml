@@ -33,3 +33,9 @@ jobs:
 
       - run: yarn build
       - run: firebase deploy --token "$FIREBASE_TOKEN"
+      - run: cd build && git init
+      - run: git config user.email koechkevin92@gmail.com
+      - run: git add .
+      - run: git commit -m "deploy"
+      - run: git remote add origin https://github.com/koechkevin/koechkevin.github.io.git
+      - run: git push origin master -f -u

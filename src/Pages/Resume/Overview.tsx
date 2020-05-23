@@ -64,7 +64,7 @@ const Overview: FC<OverviewProps> = (props) => {
             value={description}
             onChange={onChange} />}
         {description && !edit.overview &&
-        <Paragraph style={{ color: '#565656', cursor:'pointer' }}>{description}</Paragraph>}
+        <Paragraph style={{ color: '#565656', cursor:'pointer', whiteSpace:'pre-wrap' }}>{description}</Paragraph>}
         {isEditable && !edit.overview &&
         <Icon
             onClick={() => setEdit((s) => ({...s, overview: true}))}

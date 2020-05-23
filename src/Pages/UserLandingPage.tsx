@@ -140,7 +140,7 @@ const UserLandingPage: FC<any> = (props) => {
         onMouseLeave={() => setHover((s) => ({ ...s, overview: false }))}
         style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}
       >
-        {!edit.overview && <Text>{overview}</Text>}
+        {!edit.overview && <Text style={{ whiteSpace: 'pre-wrap'}}>{overview}</Text>}
         {isEditable && !edit.overview && (
           <Icon
             onClick={() => setEdit((s) => ({ ...s, overview: true }))}
