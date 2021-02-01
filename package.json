@@ -26,7 +26,7 @@
     "@types/utf8": "^2.1.6",
     "@types/uuid": "^7.0.0",
     "antd": "^4.0.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "base-64": "^0.1.0",
     "cloudinary": "^1.19.0",
     "electron-packager": "^14.2.1",
